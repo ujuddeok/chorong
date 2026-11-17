@@ -931,7 +931,7 @@ dependencies = [
 
 [[package]]
 name = "cho-changes"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "cho-git",
@@ -943,7 +943,7 @@ dependencies = [
 
 [[package]]
 name = "cho-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde_json",
  "thiserror 2.0.21",
@@ -952,7 +952,7 @@ dependencies = [
 
 [[package]]
 name = "cho-fixtures"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "cho-semantic",
@@ -961,14 +961,14 @@ dependencies = [
 
 [[package]]
 name = "cho-fonts"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "gpui",
 ]
 
 [[package]]
 name = "cho-git"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "gix",
@@ -977,7 +977,7 @@ dependencies = [
 
 [[package]]
 name = "cho-graph"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "cho-fixtures",
@@ -992,7 +992,7 @@ dependencies = [
 
 [[package]]
 name = "cho-investigation"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "cho-syntax",
@@ -1006,7 +1006,7 @@ dependencies = [
 
 [[package]]
 name = "cho-layout"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -1015,7 +1015,7 @@ dependencies = [
 
 [[package]]
 name = "cho-layout-lab"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "cho-layout",
@@ -1030,7 +1030,7 @@ dependencies = [
 
 [[package]]
 name = "cho-layout-ui"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-fonts",
  "cho-layout",
@@ -1046,11 +1046,11 @@ dependencies = [
 
 [[package]]
 name = "cho-metrics"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "cho-search"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "grep-matcher",
  "grep-regex",
@@ -1062,7 +1062,7 @@ dependencies = [
 
 [[package]]
 name = "cho-semantic"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "cho-fixtures",
@@ -1077,14 +1077,14 @@ dependencies = [
 
 [[package]]
 name = "cho-settings"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
 ]
 
 [[package]]
 name = "cho-sources"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cho-core",
  "cho-git",
@@ -1103,7 +1103,7 @@ dependencies = [
 
 [[package]]
 name = "cho-syntax"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "thiserror 2.0.21",
  "tree-sitter",
@@ -1122,7 +1122,7 @@ dependencies = [
 
 [[package]]
 name = "cho-theme"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -1131,7 +1131,7 @@ dependencies = [
 
 [[package]]
 name = "chorong"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "cho-changes",
@@ -1154,7 +1154,7 @@ dependencies = [
 
 [[package]]
 name = "chorong-app"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "cho-changes",

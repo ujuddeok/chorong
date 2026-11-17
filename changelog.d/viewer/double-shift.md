@@ -1,1 +1,0 @@
-- Pressing Shift twice quickly opens the command palette, as Cmd-Shift-P does.

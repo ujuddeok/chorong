@@ -1,1 +1,0 @@
-- The Pins pane stretches and springs back at its ends on a trackpad, like the other side panes.

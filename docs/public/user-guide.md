@@ -2,8 +2,7 @@
 
 Chorong is a read-only code viewer. You read code in it and edit elsewhere. This page walks
 through what you do with it, in the order you usually do it. For the other reference docs, see
-[README.md](README.md). If you used Chorong under its earlier name, see
-[Upgrading from the earlier name](#upgrading-from-the-earlier-name).
+[README.md](README.md).
 
 ![Chorong showing a Rust file with the file sidebar, the context pane and the outline](guide/img/overview.png)
 
@@ -1439,39 +1438,6 @@ page (about 2 MB, works anywhere), keeps the repository and commit and leaves ou
 worktree, branch and uncommitted-changes flag. `--inline` puts the libraries inside without
 the rest. `--json` prints the same graph for agents, `--dot` prints Graphviz. See
 [graph.md](graph.md).
-
-## Upgrading from the earlier name
-
-<!-- legacy-name:begin -->
-Chorong was called Odin until November 2026, and its command was `odin`. Chorong reads none of
-the old names, so moving over takes a few steps by hand:
-
-1. **Settings, trusted folders and projects.** Move the old folder to the new name, or start
-   fresh:
-   - macOS: `mv ~/Library/Application\ Support/odin ~/Library/Application\ Support/chorong`
-   - Linux: `mv ~/.config/odin ~/.config/chorong` (or under `$XDG_CONFIG_HOME`)
-
-   Indexes and cloned repositories rebuild themselves when needed, so the old cache folders
-   (`~/Library/Caches/odin` on macOS, `~/.cache/odin` on Linux) can simply be deleted.
-2. **Tokens.** Enter your GitHub and Bitbucket tokens again (**Settings**, or `cho auth add`).
-   The old keychain entries, under `odin`, can be deleted.
-3. **Investigations in a repository.** Rename the folder and the version key:
-
-   ```bash
-   git mv .odin .chorong
-   sed -i.bak 's/"odin":/"chorong":/' .chorong/investigations/*.json && rm .chorong/investigations/*.bak
-   ```
-
-   `.odin/prepare.json` moves with the folder.
-4. **Agent skill.** Install it again (`cho skill investigation --install .claude/skills`, or
-   `.cursor/skills`) and delete the old `odin-investigations` folder beside it.
-5. **Links and scripts.** `odin://` links no longer open: change them to `chorong://`. Rename
-   `ODIN_*` environment variables to `CHORONG_*` (for example `CHORONG_GITHUB_TOKEN`) and change
-   `odin` to `cho` in scripts.
-6. **The app.** On macOS, install `Chorong.app` and delete `Odin.app`; the new app has a new
-   bundle id, so macOS may ask for permissions again. Change the `PATH` line in `~/.zshrc` to
-   `/Applications/Chorong.app/Contents/MacOS`. On Linux, run `scripts/install-linux.sh` again.
-<!-- legacy-name:end -->
 
 ## Key bindings
 

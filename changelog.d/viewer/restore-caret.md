@@ -1,1 +1,0 @@
-- A saved layout reopens each editor pane at its caret, not just its file.
