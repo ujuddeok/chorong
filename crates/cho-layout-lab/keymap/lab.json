@@ -1,0 +1,347 @@
+[
+  {
+    "comment": "Layout actions in Zed's keymap format (context, then keystroke -> action). `cmd` means Cmd on macOS and Ctrl elsewhere. Keys follow design/layout.md. MinimizePane, ReopenFocusLayout and the dock toggles have no key there, so they stay unbound (reachable from the pane menu, the status bar and the focus-history button). On integration these bindings move into app/keymap/default.json.",
+    "context": "LayoutLab",
+    "bindings": {
+      "cmd-k m": "chorong::ToggleMaximizePane",
+      "cmd-k p": "chorong::PinContextHere",
+      "cmd-k shift-p": "chorong::PinContextToBottomBar",
+      "escape": "chorong::RestoreLayout",
+      "cmd-k f": "chorong::ToggleFrameStats"
+    }
+  },
+  {
+    "comment": "Focus pages, as the owner approved them (Cmd-K R, reset page, comes with tour pages).",
+    "context": "LayoutLab",
+    "bindings": {
+      "cmd-k ]": "chorong::NextFocusPage",
+      "cmd-k [": "chorong::PrevFocusPage",
+      "cmd-k shift-n": "chorong::NewFocusPage",
+      "cmd-k 1": [
+        "chorong::GoToFocusPage",
+        1
+      ],
+      "cmd-k 2": [
+        "chorong::GoToFocusPage",
+        2
+      ],
+      "cmd-k 3": [
+        "chorong::GoToFocusPage",
+        3
+      ],
+      "cmd-k 4": [
+        "chorong::GoToFocusPage",
+        4
+      ],
+      "cmd-k 5": [
+        "chorong::GoToFocusPage",
+        5
+      ],
+      "cmd-k 6": [
+        "chorong::GoToFocusPage",
+        6
+      ],
+      "cmd-k 7": [
+        "chorong::GoToFocusPage",
+        7
+      ],
+      "cmd-k 8": [
+        "chorong::GoToFocusPage",
+        8
+      ],
+      "cmd-k 9": [
+        "chorong::GoToFocusPage",
+        9
+      ]
+    }
+  },
+  {
+    "comment": "Keyboard layout (design/layout-keyboard.md, decided): direct chords in the window.",
+    "context": "LayoutLab",
+    "bindings": {
+      "cmd-k cmd-left": "chorong::FocusPaneLeft",
+      "cmd-k cmd-right": "chorong::FocusPaneRight",
+      "cmd-k cmd-up": "chorong::FocusPaneUp",
+      "cmd-k cmd-down": "chorong::FocusPaneDown",
+      "cmd-1": [
+        "chorong::FocusEditorGroup",
+        1
+      ],
+      "cmd-2": [
+        "chorong::FocusEditorGroup",
+        2
+      ],
+      "cmd-3": [
+        "chorong::FocusEditorGroup",
+        3
+      ],
+      "cmd-4": [
+        "chorong::FocusEditorGroup",
+        4
+      ],
+      "cmd-5": [
+        "chorong::FocusEditorGroup",
+        5
+      ],
+      "cmd-6": [
+        "chorong::FocusEditorGroup",
+        6
+      ],
+      "cmd-7": [
+        "chorong::FocusEditorGroup",
+        7
+      ],
+      "cmd-8": [
+        "chorong::FocusEditorGroup",
+        8
+      ],
+      "cmd-9": [
+        "chorong::FocusEditorGroup",
+        9
+      ],
+      "cmd-b": "chorong::ToggleLeftDock",
+      "cmd-alt-b": "chorong::ToggleRightDock",
+      "cmd-j": "chorong::ToggleBottomBar",
+      "cmd-alt-y": "chorong::ToggleAllDocks",
+      "cmd-\\": "chorong::SplitPaneRight",
+      "cmd-k left": "chorong::SplitPaneLeft",
+      "cmd-k right": "chorong::SplitPaneRight",
+      "cmd-k up": "chorong::SplitPaneUp",
+      "cmd-k down": "chorong::SplitPaneDown",
+      "shift-escape": "chorong::ToggleMaximizePane",
+      "cmd-k n": "chorong::MinimizePane",
+      "cmd-k z": "chorong::UndoLayout",
+      "cmd-k shift-z": "chorong::RedoLayout",
+      "cmd-k space": "chorong::EnterLayoutMode",
+      "w": "chorong::EnterLayoutMode",
+      "cmd-w": "chorong::ClosePane"
+    }
+  },
+  {
+    "comment": "Layout mode: exclusive, entered with w or Cmd-K Space; its hint bar has this context. Jump labels: 1-9 editor groups, then home-row letters.",
+    "context": "LayoutMode",
+    "bindings": {
+      "left": "chorong::FocusPaneLeft",
+      "right": "chorong::FocusPaneRight",
+      "up": "chorong::FocusPaneUp",
+      "down": "chorong::FocusPaneDown",
+      "shift-left": "chorong::MovePaneLeft",
+      "shift-right": "chorong::MovePaneRight",
+      "shift-up": "chorong::MovePaneUp",
+      "shift-down": "chorong::MovePaneDown",
+      "alt-left": "chorong::MoveGroupLeft",
+      "alt-right": "chorong::MoveGroupRight",
+      "alt-up": "chorong::MoveGroupUp",
+      "alt-down": "chorong::MoveGroupDown",
+      "1": [
+        "chorong::FocusEditorGroup",
+        1
+      ],
+      "2": [
+        "chorong::FocusEditorGroup",
+        2
+      ],
+      "3": [
+        "chorong::FocusEditorGroup",
+        3
+      ],
+      "4": [
+        "chorong::FocusEditorGroup",
+        4
+      ],
+      "5": [
+        "chorong::FocusEditorGroup",
+        5
+      ],
+      "6": [
+        "chorong::FocusEditorGroup",
+        6
+      ],
+      "7": [
+        "chorong::FocusEditorGroup",
+        7
+      ],
+      "8": [
+        "chorong::FocusEditorGroup",
+        8
+      ],
+      "9": [
+        "chorong::FocusEditorGroup",
+        9
+      ],
+      "a": [
+        "chorong::FocusLabel",
+        "a"
+      ],
+      "d": [
+        "chorong::FocusLabel",
+        "d"
+      ],
+      "f": [
+        "chorong::FocusLabel",
+        "f"
+      ],
+      "g": [
+        "chorong::FocusLabel",
+        "g"
+      ],
+      "j": [
+        "chorong::FocusLabel",
+        "j"
+      ],
+      "k": [
+        "chorong::FocusLabel",
+        "k"
+      ],
+      "l": [
+        "chorong::FocusLabel",
+        "l"
+      ],
+      ";": [
+        "chorong::FocusLabel",
+        ";"
+      ],
+      "e": [
+        "chorong::FocusLabel",
+        "e"
+      ],
+      "i": [
+        "chorong::FocusLabel",
+        "i"
+      ],
+      "o": [
+        "chorong::FocusLabel",
+        "o"
+      ],
+      "q": [
+        "chorong::FocusLabel",
+        "q"
+      ],
+      "c": [
+        "chorong::FocusLabel",
+        "c"
+      ],
+      "z": [
+        "chorong::FocusLabel",
+        "z"
+      ],
+      "y": [
+        "chorong::FocusLabel",
+        "y"
+      ],
+      "v": "chorong::SplitPaneRight",
+      "s": "chorong::SplitPaneDown",
+      "r": "chorong::EnterResizeMode",
+      "=": "chorong::EqualizePanes",
+      "m": "chorong::ToggleMaximizePane",
+      "n": "chorong::MinimizePane",
+      "t": "chorong::SendPaneToTray",
+      "x": "chorong::ClosePane",
+      "h": "chorong::ReopenFocusLayout",
+      "u": "chorong::UndoLayout",
+      "shift-u": "chorong::RedoLayout",
+      "w": "chorong::ExitLayoutMode",
+      "enter": "chorong::ExitLayoutMode",
+      "escape": "chorong::ExitLayoutMode"
+    }
+  },
+  {
+    "comment": "The resize sub-mode (r in Layout mode). Later sections win, so these arrows resize.",
+    "context": "LayoutMode && resize",
+    "bindings": {
+      "left": [
+        "chorong::ResizePane",
+        {
+          "direction": "left"
+        }
+      ],
+      "shift-left": [
+        "chorong::ResizePane",
+        {
+          "direction": "left",
+          "fine": true
+        }
+      ],
+      "right": [
+        "chorong::ResizePane",
+        {
+          "direction": "right"
+        }
+      ],
+      "shift-right": [
+        "chorong::ResizePane",
+        {
+          "direction": "right",
+          "fine": true
+        }
+      ],
+      "up": [
+        "chorong::ResizePane",
+        {
+          "direction": "up"
+        }
+      ],
+      "shift-up": [
+        "chorong::ResizePane",
+        {
+          "direction": "up",
+          "fine": true
+        }
+      ],
+      "down": [
+        "chorong::ResizePane",
+        {
+          "direction": "down"
+        }
+      ],
+      "shift-down": [
+        "chorong::ResizePane",
+        {
+          "direction": "down",
+          "fine": true
+        }
+      ],
+      "=": "chorong::EqualizePanes",
+      "enter": "chorong::ExitResizeMode",
+      "escape": "chorong::ExitResizeMode"
+    }
+  },
+  {
+    "comment": "Pane pickers, the Ctrl-Tab switcher and dock sizes, as in the viewer (the shell's overlay has the key context `Chorong PanePicker` / `Chorong PaneSwitcher`, so the lab repeats Ctrl-Tab there).",
+    "context": "LayoutLab",
+    "bindings": {
+      "cmd-k /": "chorong::FocusPane",
+      "cmd-k shift-m": "chorong::MovePaneTo",
+      "cmd-k shift-b": "chorong::BringFromTray",
+      "ctrl-tab": "chorong::OpenSwitcher",
+      "ctrl-shift-tab": "chorong::OpenSwitcherReverse",
+      "ctrl-alt-=": "chorong::GrowDock",
+      "ctrl-alt--": "chorong::ShrinkDock",
+      "ctrl-alt-0": "chorong::ResetDockSize"
+    }
+  },
+  {
+    "context": "PanePicker",
+    "bindings": {
+      "up": "chorong::PaneListPrev",
+      "down": "chorong::PaneListNext",
+      "enter": "chorong::PaneListConfirm",
+      "shift-enter": "chorong::PaneListConfirmAlt",
+      "tab": "chorong::PaneListTab",
+      "escape": "chorong::PaneListClose"
+    }
+  },
+  {
+    "context": "PaneSwitcher",
+    "bindings": {
+      "ctrl-tab": "chorong::OpenSwitcher",
+      "ctrl-shift-tab": "chorong::OpenSwitcherReverse",
+      "up": "chorong::PaneListPrev",
+      "down": "chorong::PaneListNext",
+      "left": "chorong::PaneListPrev",
+      "right": "chorong::PaneListNext",
+      "enter": "chorong::PaneListConfirm",
+      "escape": "chorong::PaneListClose"
+    }
+  }
+]

@@ -1,0 +1,1 @@
+{ "name": "@fx/maps", "version": "1.0.0", "type": "module", "types": "./dist/shapes.d.ts", "exports": { ".": { "types": "./dist/shapes.d.ts", "default": "./dist/shapes.js" } } }

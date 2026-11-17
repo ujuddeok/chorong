@@ -1,0 +1,144 @@
+{
+  "chorong": 2,
+  "title": "Generating a reply: from the request to the model and back",
+  "kind": "callstack",
+  "repo": "github:acme/assistant",
+  "rev": "0badc0de1234",
+  "summary": "Traced for one chat request with moderation on.",
+  "generator": "example",
+  "nodes": [
+    {
+      "id": "setup",
+      "name": "Build the model client",
+      "anchor": {
+        "path": "src/model/client.rs",
+        "symbol": "ModelClient::new"
+      },
+      "evidence": "read",
+      "note": "Runs once at start-up."
+    },
+    {
+      "id": "route",
+      "name": "Accept the request",
+      "anchor": {
+        "path": "src/http/chat.rs",
+        "symbol": "post_message"
+      },
+      "evidence": "read"
+    },
+    {
+      "id": "limit",
+      "name": "Check the rate limit",
+      "anchor": {
+        "path": "src/limits.rs",
+        "symbol": "RateLimiter::check"
+      },
+      "evidence": "read",
+      "values": [
+        "remaining = 3"
+      ]
+    },
+    {
+      "id": "client",
+      "name": "Call the model",
+      "anchor": {
+        "path": "src/model/client.rs",
+        "symbol": "ModelClient::complete",
+        "excerpt": "self.http.post("
+      },
+      "evidence": "read"
+    },
+    {
+      "id": "moderate",
+      "name": "Moderate the reply",
+      "anchor": {
+        "path": "src/moderation.rs",
+        "symbol": "moderate"
+      },
+      "evidence": "inferred",
+      "values": [
+        "verdict = \"allowed\""
+      ]
+    }
+  ],
+  "externals": [
+    {
+      "id": "quota",
+      "what": "limit",
+      "label": "Provider quota: 60 requests a minute",
+      "note": "From the provider's documentation, not from code."
+    },
+    {
+      "id": "model",
+      "what": "model",
+      "label": "Hosted language model",
+      "name": "Generate",
+      "evidence": "inferred",
+      "values": [
+        "finish = \"stop\""
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "route",
+      "to": "limit",
+      "rel": "calls"
+    },
+    {
+      "from": "limit",
+      "to": "quota",
+      "rel": "related",
+      "note": "The limiter mirrors the provider quota."
+    },
+    {
+      "from": "route",
+      "to": "client",
+      "rel": "calls"
+    },
+    {
+      "from": "client",
+      "to": "model",
+      "rel": "data-flow"
+    },
+    {
+      "from": "client",
+      "to": "moderate",
+      "rel": "calls"
+    }
+  ],
+  "groups": [
+    {
+      "label": "At start-up",
+      "members": [
+        "setup"
+      ],
+      "phase": "setup"
+    },
+    {
+      "label": "Per request",
+      "members": [
+        "route",
+        "limit",
+        "client",
+        "model",
+        "moderate"
+      ],
+      "phase": "call"
+    }
+  ],
+  "steps": [
+    "setup",
+    "route",
+    "limit",
+    "client",
+    "model",
+    "moderate"
+  ],
+  "untraced": [
+    {
+      "what": "Streaming chunks back to the browser",
+      "why": "Handled by the web framework's response writer."
+    }
+  ]
+}

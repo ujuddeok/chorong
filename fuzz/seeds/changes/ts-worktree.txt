@@ -1,0 +1,10 @@
+class A {
+  m() {}
+}
+ÿclass A {
+  m() { x }
+  n() {}
+}
+ÿclass A {
+  m() { x }
+}

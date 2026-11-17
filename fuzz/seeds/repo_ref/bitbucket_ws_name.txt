@@ -1,0 +1,1 @@
+bitbucket:ws/name

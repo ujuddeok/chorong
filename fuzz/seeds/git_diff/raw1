@@ -1,0 +1,11 @@
+diff --git a/a b b/a b
+--- a/a b	
++++ b/a b	
+@@ -1 +1,2 @@ ctx
+-x
++y
++z
+--- "a/caf\303\251"
++++ /dev/null
+@@ -1 +0,0 @@
+-q

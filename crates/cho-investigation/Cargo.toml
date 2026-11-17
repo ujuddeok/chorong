@@ -1,0 +1,31 @@
+[package]
+name = "cho-investigation"
+description = "The Chorong investigation format: call stacks, tours, diagrams and PR overlays."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[features]
+# The bounded https fetch of investigation URLs (`source::read` of a `Source::Url`). Off by
+# default so crates that only check investigations (cho-semantic, cho-graph) link no
+# network stack; cho-cli and the viewer turn it on.
+fetch = ["dep:rustls", "dep:ureq"]
+
+[dependencies]
+cho-core.workspace = true
+cho-syntax.workspace = true
+# Only to hand ureq the ring crypto provider, as cho-sources does.
+rustls = { version = "0.23", optional = true, default-features = false, features = ["ring", "std", "tls12"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+ureq = { version = "3", optional = true, default-features = false, features = ["gzip", "platform-verifier", "rustls-no-provider"] }
+url.workspace = true
+
+[dev-dependencies]
+cho-core = { workspace = true, features = ["test-support"] }
+
+[lints]
+workspace = true

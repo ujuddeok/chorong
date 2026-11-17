@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "projects": {
+    "github:acme/api": {
+      "protocol": "ssh",
+      "worktree_cap": 4
+    },
+    "github:acme/web": {
+      "protocol": "https",
+      "url": "https://git.example.com/acme/web.git",
+      "worktree_cap": 10
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "version": 2,
+  "next_id": 34,
+  "focused": 22,
+  "panes": [
+    {
+      "id": 15,
+      "kind": "editor",
+      "path": "app/src/view.rs",
+      "caret": 7907
+    },
+    {
+      "id": 22,
+      "kind": "context"
+    },
+    {
+      "id": 32,
+      "kind": "pinned_context",
+      "symbol": "sym2",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 857,
+      "commit": "abc1234"
+    }
+  ],
+  "arrangement": {
+    "left": {
+      "root": null,
+      "size": 369.6,
+      "visible": true
+    },
+    "right": {
+      "root": {
+        "type": "group",
+        "id": 24,
+        "tabs": [
+          22
+        ],
+        "active": 0,
+        "minimized": false
+      },
+      "size": 160.0,
+      "visible": true
+    },
+    "bottom": {
+      "root": {
+        "type": "group",
+        "id": 33,
+        "tabs": [
+          32
+        ],
+        "active": 0,
+        "minimized": false
+      },
+      "size": 220.0,
+      "visible": true
+    },
+    "editor": {
+      "type": "group",
+      "id": 16,
+      "tabs": [
+        15
+      ],
+      "active": 0,
+      "minimized": false
+    }
+  },
+  "focus_history": [
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "group",
+            "tabs": [
+              {
+                "kind": "editor",
+                "path": "app/src/view.rs"
+              }
+            ],
+            "active": 0,
+            "minimized": true
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "context"
+      },
+      "ended_at": 72
+    },
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "split",
+            "axis": "column",
+            "children": [
+              {
+                "weight": 0.5,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "context"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              },
+              {
+                "weight": 0.5,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "pin",
+                      "symbol": "sym2",
+                      "commit": "abc1234"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              }
+            ]
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "context"
+      },
+      "ended_at": 19
+    },
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "group",
+            "tabs": [
+              {
+                "kind": "context"
+              }
+            ],
+            "active": 0,
+            "minimized": false
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "context"
+      },
+      "ended_at": 8
+    }
+  ],
+  "recent": [
+    15
+  ]
+}

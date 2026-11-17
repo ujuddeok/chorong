@@ -1,0 +1,16 @@
+[package]
+name = "cho-fixtures"
+description = "Test fixtures shared by every crate's tests: real TypeScript workspace layouts with committed SCIP indexes. Not shipped."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+cho-core.workspace = true
+cho-semantic.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

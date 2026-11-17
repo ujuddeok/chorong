@@ -1,0 +1,110 @@
+{
+  "chorong": 2,
+  "title": "Reading the webhook path: signature, dispatch, queue",
+  "kind": "tour",
+  "repo": "github:acme/api",
+  "rev": "3f9c1e2a7b4d",
+  "summary": "A reading tour of how a signed webhook becomes a queued job.",
+  "points": [
+    "Signatures are checked before the body is parsed.",
+    "Only branch pushes reach the queue; tag pushes return early."
+  ],
+  "generator": "example",
+  "nodes": [
+    {
+      "id": "config",
+      "name": "Load the secret",
+      "anchor": { "path": "src/config.rs", "symbol": "Config::webhook_secret" },
+      "evidence": "read"
+    },
+    {
+      "id": "handle",
+      "name": "Verify, then dispatch",
+      "anchor": {
+        "path": "src/http/webhook.rs",
+        "symbol": "WebhookHandler::handle",
+        "from": "verify_signature(",
+        "to": "?;"
+      },
+      "note": "Rejects unsigned requests, then dispatches on the event header.",
+      "evidence": "read",
+      "values": ["event = \"push\""]
+    },
+    {
+      "id": "parse",
+      "anchor": { "path": "src/http/webhook.rs", "symbol": "parse_event" },
+      "evidence": "read"
+    },
+    {
+      "id": "push",
+      "name": "Filter branch pushes",
+      "anchor": { "path": "src/events/push.rs", "symbol": "on_push", "excerpt": "if push.is_tag()" },
+      "evidence": "read",
+      "values": ["is_tag = false"]
+    },
+    {
+      "id": "enqueue",
+      "name": "Queue the job",
+      "anchor": { "path": "src/jobs/queue.rs", "symbol": "Queue::push", "excerpt": "self.tx.send(job)" },
+      "evidence": "inferred",
+      "note": "Assumed to be the only producer; other callers were not searched."
+    },
+    {
+      "id": "push-cached",
+      "name": "Reuse the cached push",
+      "anchor": { "path": "src/events/push.rs", "symbol": "on_push_cached" }
+    }
+  ],
+  "edges": [
+    { "from": "handle", "to": "parse", "rel": "calls" },
+    { "from": "handle", "to": "push", "rel": "calls", "note": "When the event is `push`." },
+    { "from": "push", "to": "enqueue", "rel": "calls" }
+  ],
+  "groups": [
+    { "label": "Setup", "members": ["config"], "phase": "setup" },
+    { "label": "Request", "members": ["handle", "push", "enqueue"], "phase": "call" }
+  ],
+  "steps": ["config", "handle", "push", "enqueue"],
+  "views": {
+    "handle": {
+      "arrangement": "main-side",
+      "panes": [
+        {
+          "kind": "editor",
+          "highlights": [
+            { "anchor": "handle", "name": "Signature first", "note": "The webhook is checked before anything is read from it." },
+            { "anchor": "parse", "name": "Parsing after" }
+          ]
+        },
+        { "kind": "graph", "of": "handle", "direction": "out", "depth": 1 }
+      ]
+    },
+    "push": {
+      "arrangement": "side-by-side",
+      "panes": [
+        { "kind": "editor" },
+        { "kind": "context", "anchor": "enqueue" }
+      ]
+    },
+    "enqueue": {
+      "panes": [{ "kind": "editor" }, { "kind": "callstack" }, { "kind": "outline", "path": "src/jobs/queue.rs" }]
+    }
+  },
+  "variants": [
+    {
+      "id": "cached",
+      "label": "Push already seen",
+      "rows": {
+        "push": { "step": "push-cached", "values": ["cache hit"] },
+        "enqueue": { "missing": "not reached: a cached push is not queued again" }
+      }
+    }
+  ],
+  "untraced": [
+    {
+      "what": "Event handlers registered by plugins",
+      "at": { "path": "src/events/mod.rs", "symbol": "register" },
+      "why": "Registered by name at run time."
+    }
+  ]
+}

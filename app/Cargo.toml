@@ -1,0 +1,52 @@
+[package]
+name = "chorong-app"
+description = "Chorong's GPU-rendered viewer."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+categories = ["development-tools"]
+
+[[bin]]
+name = "chorong-app"
+path = "src/main.rs"
+
+[dependencies]
+cho-changes.workspace = true
+cho-core.workspace = true
+cho-git.workspace = true
+cho-graph.workspace = true
+cho-investigation = { workspace = true, features = ["fetch"] }
+cho-search.workspace = true
+cho-semantic.workspace = true
+cho-sources.workspace = true
+cho-syntax.workspace = true
+cho-theme.workspace = true
+cho-fonts.workspace = true
+cho-layout.workspace = true
+cho-layout-ui.workspace = true
+cho-settings.workspace = true
+cho-metrics.workspace = true
+anyhow.workspace = true
+futures = "0.3"
+clap.workspace = true
+gpui.workspace = true
+ignore = "0.4"
+regex = "1"
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+cho-core = { workspace = true, features = ["test-support"] }
+cho-fixtures = { path = "../crates/cho-fixtures" }
+tempfile = "3"
+
+[lints]
+workspace = true
+
+# gpui 0.2.2 depends (via its HTTP client) on xattr 0.2.3, which uses
+# `libc::ENOATTR`. libc 0.2.187+ dropped that constant on Linux, so pin libc
+# until gpui moves to a newer xattr. Remove this when that happens.
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "=0.2.186"

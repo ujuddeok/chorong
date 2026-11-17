@@ -1,0 +1,1 @@
+chorong://investigation?src=/home/me/traces/boot.json

@@ -1,0 +1,1 @@
+ssh://git@host:7999/p/r.git

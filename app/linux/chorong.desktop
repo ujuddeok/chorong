@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Chorong
+GenericName=Code Viewer
+Comment=Read-only code viewer
+Exec=chorong-app %u
+Terminal=false
+Categories=Development;
+MimeType=x-scheme-handler/chorong;
+StartupNotify=true

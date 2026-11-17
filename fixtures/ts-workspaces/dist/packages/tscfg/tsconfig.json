@@ -1,0 +1,8 @@
+{
+  // Built with `tsc -p .`: code/ to out/.
+  "compilerOptions": {
+    "rootDir": "code",
+    "outDir": "out",
+    "declaration": true,
+  },
+}

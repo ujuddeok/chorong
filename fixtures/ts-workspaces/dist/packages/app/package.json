@@ -1,0 +1,2 @@
+{ "name": "@fx/app", "version": "1.0.0", "type": "module", "private": true,
+  "dependencies": { "@fx/maps": "workspace:*", "@fx/tscfg": "workspace:*", "@fx/entry": "workspace:*", "@fx/swap": "workspace:*", "@fx/bundle": "workspace:*" } }

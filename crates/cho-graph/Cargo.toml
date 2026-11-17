@@ -1,0 +1,24 @@
+[package]
+name = "cho-graph"
+description = "Reference-graph engine: nodes, edges, roll-up and views over SCIP indexes; JSON, DOT and HTML output."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[dependencies]
+cho-core.workspace = true
+cho-syntax.workspace = true
+cho-theme.workspace = true
+cho-semantic.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+cho-fixtures = { path = "../cho-fixtures" }
+scip.workspace = true
+
+[lints]
+workspace = true

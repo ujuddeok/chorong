@@ -1,0 +1,1 @@
+{ "name": "@fx/swap", "version": "1.0.0", "type": "module", "types": "./dist/greet.d.ts", "exports": { ".": { "types": "./dist/greet.d.ts", "default": "./dist/greet.js" } } }

@@ -1,0 +1,1 @@
+{"steps":[{"argv":["pnpm","install","--frozen-lockfile"]},{"argv":["cargo","build","it's here"],"cwd":"crates/a","timeout_s":60}]}

@@ -1,0 +1,43 @@
+{
+  "chorong": 2,
+  "title": "Adding a column to orders: the change, the migration, the code",
+  "kind": "tour",
+  "repo": "github:acme/api",
+  "rev": "3f9c1e2a7b4d",
+  "summary": "A walkthrough that mixes a diff, a command to run by hand, and code.",
+  "generator": "example",
+  "nodes": [
+    {
+      "id": "schema",
+      "name": "What changed in the schema",
+      "anchor": { "path": "src/db/schema.rs", "symbol": "Order" }
+    },
+    {
+      "id": "save",
+      "name": "Where the column is written",
+      "anchor": { "path": "src/orders/store.rs", "symbol": "OrderStore::save", "excerpt": "discount" },
+      "note": "The new column is written on every save."
+    }
+  ],
+  "actions": [
+    {
+      "id": "migrate",
+      "name": "Run the migration",
+      "note": "Apply the migration to your **local** database before reading on. Nothing runs from this file: copy the commands.",
+      "commands": [
+        { "label": "Apply", "text": "cargo run -p db -- migrate up" },
+        { "label": "Check the table", "text": "psql -c '\\d orders'" }
+      ]
+    }
+  ],
+  "steps": ["schema", "migrate", "save"],
+  "views": {
+    "schema": {
+      "panes": [ { "kind": "diff", "path": "src/db/schema.rs", "base": "main" } ]
+    },
+    "migrate": {
+      "arrangement": "side-by-side",
+      "panes": [ { "kind": "editor", "anchor": "save" } ]
+    }
+  }
+}

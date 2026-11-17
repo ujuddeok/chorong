@@ -1,0 +1,5 @@
+{
+  "extends": "@fx/typescript-config/library.json",
+  "compilerOptions": { "outDir": ".types", "rootDir": "." },
+  "include": ["src"]
+}

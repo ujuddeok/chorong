@@ -1,0 +1,100 @@
+{
+  "chorong": 2,
+  "title": "Creating an order: REST handler against SOAP handler",
+  "kind": "comparison",
+  "repo": "github:acme/shop",
+  "rev": "a1b2c3d4e5f6",
+  "summary": "Both entry points go through one governed wrapper, but validate at different points.",
+  "points": [
+    "Both paths share `Governed::call` and the store.",
+    "SOAP validates inside the envelope decoder; REST validates in the handler.",
+    "The bulk REST endpoint skips per-item validation."
+  ],
+  "generator": "example",
+  "nodes": [
+    { "id": "rest-route", "anchor": { "path": "src/rest/routes.rs", "symbol": "routes" }, "evidence": "read" },
+    { "id": "rest-handle", "anchor": { "path": "src/rest/orders.rs", "symbol": "create_order" }, "evidence": "read" },
+    { "id": "rest-validate", "anchor": { "path": "src/rest/orders.rs", "symbol": "create_order", "excerpt": "order.validate()?" }, "evidence": "read" },
+    { "id": "bulk-handle", "anchor": { "path": "src/rest/orders.rs", "symbol": "create_orders_bulk" }, "evidence": "read" },
+    { "id": "soap-servlet", "anchor": { "path": "src/soap/servlet.rs", "symbol": "OrderServlet::dispatch" }, "evidence": "read" },
+    { "id": "soap-decode", "anchor": { "path": "src/soap/envelope.rs", "symbol": "decode_order", "from": "let order", "to": "validate()?" }, "evidence": "read" },
+    { "id": "wrap", "anchor": { "path": "src/governance/wrapper.rs", "symbol": "Governed::call" }, "evidence": "read" },
+    { "id": "store", "anchor": { "path": "src/store/orders.rs", "symbol": "OrderStore::insert" }, "evidence": "inferred" }
+  ],
+  "externals": [
+    { "id": "db", "what": "database", "label": "Orders database", "evidence": "inferred" }
+  ],
+  "edges": [
+    { "from": "rest-handle", "to": "wrap", "rel": "calls" },
+    { "from": "soap-servlet", "to": "wrap", "rel": "calls" },
+    { "from": "wrap", "to": "store", "rel": "dispatches" },
+    { "from": "store", "to": "db", "rel": "data-flow" }
+  ],
+  "sides": [
+    {
+      "id": "rest",
+      "label": "REST handler",
+      "path": ["rest-route", "rest-handle", "rest-validate", "wrap", "store", "db"],
+      "variants": [
+        {
+          "id": "bulk",
+          "label": "Bulk endpoint",
+          "rows": {
+            "entry": { "step": "bulk-handle" },
+            "validate": { "missing": "the bulk endpoint validates only the batch size", "callout": "Bulk skips per-item checks" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "soap",
+      "label": "SOAP handler",
+      "path": ["soap-servlet", "soap-decode", "wrap", "store", "db"]
+    }
+  ],
+  "rows": [
+    {
+      "id": "route",
+      "name": "Register the endpoint",
+      "phase": "setup",
+      "cells": {
+        "rest": { "step": "rest-route" },
+        "soap": { "missing": "the servlet is mapped in deployment config, not in code" }
+      }
+    },
+    {
+      "id": "entry",
+      "name": "Receive the request",
+      "phase": "call",
+      "cells": { "rest": { "step": "rest-handle" }, "soap": { "step": "soap-servlet" } },
+      "result": "differs",
+      "callout": "Paths split here"
+    },
+    {
+      "id": "validate",
+      "name": "Validate the order",
+      "phase": "call",
+      "cells": {
+        "rest": { "step": "rest-validate", "values": ["strict = true"] },
+        "soap": { "step": "soap-decode", "values": ["strict = true"] }
+      },
+      "result": "same",
+      "note": "Same checks, run at different points."
+    },
+    {
+      "id": "govern",
+      "name": "Governed call",
+      "phase": "call",
+      "cells": { "rest": { "step": "wrap" }, "soap": { "step": "wrap" } }
+    },
+    {
+      "id": "persist",
+      "name": "Store the order",
+      "phase": "call",
+      "cells": { "rest": { "step": "store" }, "soap": { "step": "store" } }
+    }
+  ],
+  "untraced": [
+    { "what": "Retry policy inside the governed wrapper", "at": "wrap", "why": "Configured from a policy file at start-up." }
+  ]
+}

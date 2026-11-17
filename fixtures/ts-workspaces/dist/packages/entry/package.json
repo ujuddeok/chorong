@@ -1,0 +1,1 @@
+{ "name": "@fx/entry", "version": "0.3.0", "type": "module", "types": "./types/index.d.ts", "source": "./main/entry.ts", "exports": { ".": { "types": "./types/index.d.ts", "default": "./types/index.js" } } }

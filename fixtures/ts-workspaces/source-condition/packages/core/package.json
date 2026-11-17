@@ -1,0 +1,5 @@
+{ "name": "@fx/core", "version": "0.0.0", "private": true, "type": "module",
+  "exports": { ".": { "development": "./src/index.ts", "default": "./dist/index.mjs" } },
+  "files": ["dist", "package.json"],
+  "dependencies": {  },
+  "devDependencies": { "@fx/typescript-config": "workspace:*" } }

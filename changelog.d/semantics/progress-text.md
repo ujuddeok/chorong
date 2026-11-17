@@ -1,0 +1,1 @@
+- Indexing progress never reads "4 of 3" and shows control characters in step names as escapes.

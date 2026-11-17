@@ -1,0 +1,6 @@
+{
+  "extends": "@fx/typescript-config/base.json",
+  "compilerOptions": { "noEmit": true },
+  "include": ["src"],
+  "references": [{ "path": "../../packages/core" }, { "path": "../../packages/client" }, { "path": "../../packages/ui" }]
+}

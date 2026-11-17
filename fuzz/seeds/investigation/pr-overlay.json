@@ -1,0 +1,23 @@
+{
+  "chorong": 1,
+  "title": "PR 482: retry failed deliveries",
+  "kind": "pr-overlay",
+  "repo": "bitbucket:acme-team/api",
+  "rev": "9d0c4b1e",
+  "pr": { "number": 482, "base": "51aa0f3c", "head": "9d0c4b1e" },
+  "summary": "Adds a retry loop around delivery and a new backoff policy. The risky part is the change to `Queue::push`, which now runs on every retry.",
+  "nodes": [
+    { "id": "deliver", "anchor": { "path": "src/delivery/mod.rs", "symbol": "deliver" } },
+    { "id": "backoff", "anchor": { "path": "src/delivery/backoff.rs", "symbol": "Backoff::next_delay" } },
+    { "id": "push", "anchor": { "path": "src/jobs/queue.rs", "symbol": "Queue::push" } }
+  ],
+  "edges": [
+    { "from": "deliver", "to": "backoff", "rel": "calls" },
+    { "from": "deliver", "to": "push", "rel": "calls", "note": "Called again for each retry. Check that it's idempotent." }
+  ],
+  "groups": [
+    { "label": "New retry path", "members": ["deliver", "backoff"] },
+    { "label": "Behaviour change", "members": ["push"], "note": "Existing callers are affected." }
+  ],
+  "steps": ["deliver", "backoff", "push"]
+}

@@ -1,0 +1,17 @@
+[package]
+name = "cho-theme"
+description = "Loads Zed theme files (schema v0.2.0) for Chorong."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+keywords = ["zed", "theme"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

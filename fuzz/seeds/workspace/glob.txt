@@ -1,0 +1,2 @@
+packages/**/x*
+packages/a/b/xy

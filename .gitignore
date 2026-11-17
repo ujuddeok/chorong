@@ -1,0 +1,12 @@
+/target
+**/*.rs.bk
+.DS_Store
+.idea/
+.vscode/
+*.swp
+/.cho-cache/
+/fuzz/target
+/fuzz/corpus
+/fuzz/artifacts
+/fuzz/logs
+__pycache__/

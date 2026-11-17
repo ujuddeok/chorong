@@ -1,0 +1,1 @@
+{ "name": "@fx/tscfg", "version": "2.1.0", "type": "module", "types": "./out/calc.d.ts", "exports": { ".": { "types": "./out/calc.d.ts", "default": "./out/calc.js" } } }

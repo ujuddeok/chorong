@@ -1,0 +1,40 @@
+{
+  "chorong": 1,
+  "title": "How a push webhook reaches the job queue",
+  "kind": "callstack",
+  "repo": "github:acme/api",
+  "rev": "3f9c1e2a7b4d",
+  "summary": "Traced for a push event on the default configuration. Signature checks happen before any parsing.",
+  "generator": "callstack-skill 0.1",
+  "nodes": [
+    {
+      "id": "route",
+      "anchor": { "path": "src/http/router.rs", "symbol": "build_router" },
+      "note": "Registers `/hooks/github` with `WebhookHandler::handle`."
+    },
+    {
+      "id": "handle",
+      "anchor": {
+        "path": "src/http/webhook.rs",
+        "symbol": "WebhookHandler::handle",
+        "excerpt": "verify_signature(&headers, &body)?"
+      },
+      "note": "Rejects unsigned requests, then dispatches on the `X-GitHub-Event` header."
+    },
+    {
+      "id": "push",
+      "anchor": { "path": "src/events/push.rs", "symbol": "on_push" },
+      "note": "Only branch pushes are queued; tag pushes return early."
+    },
+    {
+      "id": "enqueue",
+      "anchor": { "path": "src/jobs/queue.rs", "symbol": "Queue::push", "excerpt": "self.tx.send(job)" }
+    }
+  ],
+  "edges": [
+    { "from": "route", "to": "handle", "rel": "dispatches", "note": "Registered as an axum route handler." },
+    { "from": "handle", "to": "push", "rel": "calls", "note": "When the event is `push`." },
+    { "from": "push", "to": "enqueue", "rel": "calls" }
+  ],
+  "steps": ["route", "handle", "push", "enqueue"]
+}

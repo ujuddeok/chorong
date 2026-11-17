@@ -1,0 +1,30 @@
+[package]
+name = "cho-layout-lab"
+description = "A prototype window that renders cho-layout with placeholder panes, to try docks, drag and drop and focus layouts before the viewer moves onto them."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false # dev tool, never published
+
+[[bin]]
+name = "cho-layout-lab"
+path = "src/main.rs"
+
+[dependencies]
+cho-layout.workspace = true
+cho-layout-ui = { path = "../cho-layout-ui" }
+cho-theme.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+gpui.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+
+[lints]
+workspace = true
+
+# Same pin as app/Cargo.toml (see docs/public/building.md): gpui 0.2.2's xattr needs libc::ENOATTR.
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "=0.2.186"

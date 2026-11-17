@@ -1,0 +1,1 @@
+scip-typescript npm @x/a 1.0.0 dist/`index.d.ts`/Foo#bar().

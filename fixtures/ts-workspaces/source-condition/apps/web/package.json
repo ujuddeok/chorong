@@ -1,0 +1,3 @@
+{ "name": "@fx/web", "version": "0.0.0", "private": true, "type": "module",
+  "dependencies": { "@fx/core": "workspace:*", "@fx/client": "workspace:*", "@fx/ui": "workspace:*" },
+  "devDependencies": { "@fx/typescript-config": "workspace:*" } }

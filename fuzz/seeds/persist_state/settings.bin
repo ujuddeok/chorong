@@ -1,0 +1,6 @@
+{
+  "lightweight": false,
+  "changes.auto_refresh": false,
+  "context.follow_hover": false,
+  "context.hover_delay_ms": 0
+}

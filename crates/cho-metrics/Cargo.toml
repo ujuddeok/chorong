@@ -1,0 +1,13 @@
+[package]
+name = "cho-metrics"
+description = "Always-on, allocation-free per-feature cost counters, rolling windows and frame-budget tracking for Chorong."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[dependencies]
+
+[lints]
+workspace = true

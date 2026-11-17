@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs><radialGradient id="lamp" cx="512" cy="540" r="470" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF1C8"></stop><stop offset="0.3" stop-color="#FFB040"></stop><stop offset="0.7" stop-color="#C2501A"></stop><stop offset="1" stop-color="#3A1608"></stop></radialGradient>
+<linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.16"></stop><stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.03"></stop><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.07"></stop></linearGradient>
+<filter id="frost" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"></feGaussianBlur></filter>
+<clipPath id="tile"><rect x="100" y="100" width="824" height="824" rx="185"></rect></clipPath>
+<path id="mark" d="M300 724 V346 H390 L512 534 L634 346 H724 V724 H644 V484 L540 640 H484 L380 484 V724 Z"></path>
+<path id="star" d="M512 176 L526 230 L580 244 L526 258 L512 312 L498 258 L444 244 L498 230 Z"></path>
+<mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+<rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"></rect>
+<use xlink:href="#mark" fill="#000000"></use>
+<use xlink:href="#star" fill="#000000"></use>
+</mask></defs>
+<g clip-path="url(#tile)">
+<rect x="100" y="100" width="824" height="824" fill="url(#lamp)"></rect>
+<g filter="url(#frost)">
+<ellipse cx="512" cy="560" rx="230" ry="240" fill="#FFD48A"></ellipse>
+<ellipse cx="512" cy="560" rx="120" ry="240" fill="none" stroke="#C2501A" stroke-width="16"></ellipse>
+<rect x="452" y="300" width="120" height="40" rx="10" fill="#5A2A10"></rect>
+<rect x="452" y="790" width="120" height="40" rx="10" fill="#5A2A10"></rect>
+</g>
+<rect x="100" y="100" width="824" height="824" fill="#0E1118" fill-opacity="0.9" mask="url(#cut)"></rect>
+<g fill="#FFFFFF" fill-opacity="0.2" transform="translate(-4 -6)" mask="url(#cut)"><use xlink:href="#mark"></use><use xlink:href="#star"></use></g>
+<rect x="100" y="100" width="824" height="824" fill="url(#sheen)"></rect>
+</g>
+<rect x="102" y="102" width="820" height="820" rx="183" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="4"></rect>
+</svg>

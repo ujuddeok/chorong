@@ -1,0 +1,1079 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:chorong:schema:investigation:2",
+  "title": "Chorong investigation",
+  "description": "A Chorong investigation: claims about code, usually written by an LLM or an agent skill. Version 1 and version 2 files share this schema; the version 2 fields (marked \"Version 2\") are rejected in version 1 files. Rules a JSON Schema cannot express, which Chorong still enforces: node and external ids are unique and share one namespace; every edge `from`/`to`, every entry in `steps`, every group member, side path entry and cell `step` refers to an existing id; editor, context and untraced anchors written as ids name code nodes, not externals; `views` keys are step ids; every row has one cell per side; variant `rows` keys are row ids (comparison) or step ids (tour branch); for `pr-overlay`, `pr.head` equals `rev`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "chorong",
+    "title",
+    "kind",
+    "repo",
+    "rev",
+    "nodes"
+  ],
+  "properties": {
+    "chorong": {
+      "description": "Format version: 1, or 2 for views, ranges by text, external nodes, phases, evidence, runtime values, step names, comparisons and variants.",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "title": {
+      "description": "Human-readable title. Must not be blank.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "kind": {
+      "description": "Kind of investigation. callstack: an ordered call chain, outermost caller first. tour: an ordered reading tour through related code. diagram: an unordered graph of nodes and edges. pr-overlay: grouping, labels and notes layered over Chorong's own PR fact graph. comparison (version 2): two or more paths with their steps aligned by job.",
+      "enum": [
+        "callstack",
+        "tour",
+        "diagram",
+        "pr-overlay",
+        "comparison"
+      ]
+    },
+    "repo": {
+      "description": "Repository, in `chorong://` repo syntax (`github:owner/name`, `bitbucket:workspace/name`, `bitbucket-dc:host/project/name`, `local:/absolute/path`).",
+      "type": "string",
+      "oneOf": [
+        {
+          "pattern": "^(?:github|bitbucket):[^/]+/[^/]+$"
+        },
+        {
+          "pattern": "^bitbucket-dc:[^/]+/[^/]+/[^/]+$"
+        },
+        {
+          "pattern": "^local:(?:/(?!\\.\\.(?:/|$))[^/]*)+$"
+        }
+      ]
+    },
+    "rev": {
+      "description": "The full commit every anchor refers to (7-64 hex digits).",
+      "$ref": "#/$defs/commit"
+    },
+    "summary": {
+      "description": "Short summary of the investigation.",
+      "type": "string"
+    },
+    "points": {
+      "description": "Version 2: summary bullets.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "pr": {
+      "description": "Which pull request a `pr-overlay` describes.",
+      "$ref": "#/$defs/pullRequest"
+    },
+    "nodes": {
+      "description": "The places in the code the investigation talks about. At least one; ids must be unique.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "externals": {
+      "description": "Version 2: nodes that aren't code (a model, a database, a vendor, a platform limit). Always shown as not in the code; never verified.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/external"
+      }
+    },
+    "actions": {
+      "description": "Version 2, `tour`: steps that are instructions, not code. Each shares the node id namespace; only steps, groups, views and tour branches may name it. Commands are shown with a Copy button and never run.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/action"
+      }
+    },
+    "edges": {
+      "description": "Relationships between nodes.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    },
+    "steps": {
+      "description": "Reading order for `callstack` and `tour`: node (or external) ids, first to last.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "groups": {
+      "description": "Labelled groups of nodes.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/group"
+      }
+    },
+    "views": {
+      "description": "Version 2, `tour` and `callstack`: step id to what that step's focus page shows. Steps without a view get the default page (an editor at the step's anchor, plus Context).",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/view"
+      }
+    },
+    "sides": {
+      "description": "Version 2, `comparison`: the paths compared (two or more).",
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/side"
+      }
+    },
+    "rows": {
+      "description": "Version 2, `comparison`: steps of every side aligned by the job they do.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/row"
+      }
+    },
+    "variants": {
+      "description": "Version 2, `tour`: branches. Each overrides the steps it names (by step id); a `missing` step is shown as not reached.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/variant"
+      }
+    },
+    "untraced": {
+      "description": "Version 2: what the author could not trace.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/untraced"
+      }
+    },
+    "generator": {
+      "description": "Who or what produced this, e.g. \"callstack-skill 0.3\".",
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "callstack",
+              "tour"
+            ]
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "steps"
+        ],
+        "properties": {
+          "steps": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "pr-overlay"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "pr"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "comparison"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "sides",
+          "rows"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "chorong": {
+            "const": 1
+          }
+        },
+        "required": [
+          "chorong"
+        ]
+      },
+      "then": {
+        "description": "Version 1 files may not use version 2 fields.",
+        "properties": {
+          "points": false,
+          "externals": false,
+          "actions": false,
+          "views": false,
+          "sides": false,
+          "rows": false,
+          "variants": false,
+          "untraced": false,
+          "kind": {
+            "not": {
+              "const": "comparison"
+            }
+          },
+          "nodes": {
+            "items": {
+              "properties": {
+                "name": false,
+                "evidence": false,
+                "values": false,
+                "anchor": {
+                  "properties": {
+                    "from": false,
+                    "to": false
+                  }
+                }
+              }
+            }
+          },
+          "groups": {
+            "items": {
+              "properties": {
+                "phase": false
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{7,64}$"
+    },
+    "rev": {
+      "description": "A branch, tag or commit name: no leading `-`, whitespace, `..`, `:` or `@{`.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^(?!-)(?!.*\\.\\.)(?!.*@\\{)[^\\s:\\\\?*\\[]+$"
+    },
+    "anchor": {
+      "description": "A place in the code. Names a file and, usually, a declaration in it.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "description": "Repository-relative path: no leading `/`, no empty, `.` or `..` segments.",
+          "type": "string",
+          "pattern": "^(?:(?!\\.{1,2}(?:/|$))[^/]+/)*(?!\\.{1,2}$)[^/]+$"
+        },
+        "symbol": {
+          "description": "Declaration name, qualified as the language writes it (`Queue::push`, `Queue.push`). Absent means the whole file. Must not be blank.",
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "excerpt": {
+          "description": "A short, exact piece of source inside the anchor, used to find the precise spot and to detect drift. Not with `from`/`to`.",
+          "type": "string"
+        },
+        "line": {
+          "description": "One-based line hint, used only when `symbol` is absent or fails to resolve.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "from": {
+          "description": "Version 2: exact text where a range starts, inside the declaration (or file). Given with `to`, instead of `excerpt`. If it is gone, the anchor is broken.",
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "description": "Version 2: exact text where the range ends, searched after `from`. If it is gone, the anchor is broken.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "dependentRequired": {
+        "from": [
+          "to"
+        ],
+        "to": [
+          "from"
+        ]
+      },
+      "not": {
+        "required": [
+          "excerpt",
+          "from"
+        ]
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "anchor"
+      ],
+      "properties": {
+        "id": {
+          "description": "Unique, non-empty node id.",
+          "type": "string",
+          "minLength": 1
+        },
+        "anchor": {
+          "description": "Where this node is in the code.",
+          "$ref": "#/$defs/anchor"
+        },
+        "label": {
+          "description": "Display label. Defaults to the symbol name, or the file name.",
+          "type": "string"
+        },
+        "note": {
+          "description": "Markdown explanation of this node's role.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Version 2: a short step name, e.g. \"Verify signature\". Separate from `label` and `note`.",
+          "$ref": "#/$defs/text"
+        },
+        "evidence": {
+          "description": "Version 2: how the author knows this. Shown beside Chorong's own label; never upgraded.",
+          "$ref": "#/$defs/evidence"
+        },
+        "values": {
+          "description": "Version 2: runtime values at this step (`flag = false`, `refused`), as the author saw them. Never verified.",
+          "$ref": "#/$defs/values"
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to",
+        "rel"
+      ],
+      "properties": {
+        "from": {
+          "description": "Id of the source node.",
+          "type": "string"
+        },
+        "to": {
+          "description": "Id of the target node.",
+          "type": "string"
+        },
+        "rel": {
+          "description": "Relation. calls: `from` calls `to` directly. dispatches: `from` reaches `to` indirectly (callback, trait object, registration, dispatch). references: `from` refers to `to` without calling it. implements: `from` implements or overrides `to`. data-flow: data produced in `from` flows to `to`. contains: `from` contains `to` (module, type, file). related: anything else; explain in `note`.",
+          "enum": [
+            "calls",
+            "dispatches",
+            "references",
+            "implements",
+            "data-flow",
+            "contains",
+            "related"
+          ]
+        },
+        "note": {
+          "description": "Explanation of the relationship.",
+          "type": "string"
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "members"
+      ],
+      "properties": {
+        "label": {
+          "description": "Group label.",
+          "type": "string"
+        },
+        "members": {
+          "description": "Node ids in this group. At least one.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "description": "Explanation of the group.",
+          "type": "string"
+        },
+        "phase": {
+          "description": "Version 2: `setup` steps are numbered S1, S2…; `call` steps 1, 2….",
+          "$ref": "#/$defs/phase"
+        }
+      }
+    },
+    "pullRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "base",
+        "head"
+      ],
+      "properties": {
+        "number": {
+          "description": "Pull request number.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "base": {
+          "description": "Merge-base commit (Chorong's \"Before\").",
+          "$ref": "#/$defs/commit"
+        },
+        "head": {
+          "description": "Head commit (Chorong's \"After\"). Must equal the investigation's `rev`.",
+          "$ref": "#/$defs/commit"
+        }
+      }
+    },
+    "text": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "path": {
+      "description": "Repository-relative path: no leading `/`, no empty, `.` or `..` segments.",
+      "type": "string",
+      "pattern": "^(?:(?!\\.{1,2}(?:/|$))[^/]+/)*(?!\\.{1,2}$)[^/]+$"
+    },
+    "evidence": {
+      "description": "read: read in the code. inferred: inferred, not read.",
+      "enum": [
+        "read",
+        "inferred"
+      ]
+    },
+    "values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "phase": {
+      "enum": [
+        "setup",
+        "call"
+      ]
+    },
+    "external": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "what",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "description": "Unique id, shared with node ids.",
+          "type": "string",
+          "minLength": 1
+        },
+        "what": {
+          "description": "What it stands for.",
+          "enum": [
+            "model",
+            "database",
+            "service",
+            "vendor",
+            "platform",
+            "limit",
+            "other"
+          ]
+        },
+        "label": {
+          "description": "What to show on the box.",
+          "$ref": "#/$defs/text"
+        },
+        "note": {
+          "description": "Markdown explanation.",
+          "type": "string"
+        },
+        "name": {
+          "description": "A short step name.",
+          "$ref": "#/$defs/text"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "note"
+      ],
+      "properties": {
+        "id": {
+          "description": "Unique id, shared with node ids.",
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "description": "A short step name.",
+          "$ref": "#/$defs/text"
+        },
+        "note": {
+          "description": "The instruction, in Markdown (shown inert).",
+          "$ref": "#/$defs/text"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/command"
+          }
+        }
+      }
+    },
+    "command": {
+      "description": "A command to copy. Chorong never runs it.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "label": {
+          "description": "A short label above the command.",
+          "$ref": "#/$defs/text"
+        },
+        "text": {
+          "description": "The exact text copied; may span lines.",
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "anchorRef": {
+      "description": "A node id, or an anchor written in place.",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "$ref": "#/$defs/anchor"
+        }
+      ]
+    },
+    "untraced": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "what"
+      ],
+      "properties": {
+        "what": {
+          "description": "What could not be traced.",
+          "$ref": "#/$defs/text"
+        },
+        "at": {
+          "description": "Where it happens, if known; checked like any anchor.",
+          "$ref": "#/$defs/anchorRef"
+        },
+        "why": {
+          "description": "Why it could not be traced.",
+          "type": "string"
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panes"
+      ],
+      "properties": {
+        "arrangement": {
+          "description": "Layout template: single, side-by-side, stacked, main-side or grid. Absent: main-side for two or more panes, else single. An unknown name is reported by check and the step shows the default page. No sizes or coordinates.",
+          "type": "string"
+        },
+        "panes": {
+          "description": "What the page shows, in order. An unknown pane `kind` is reported by check and the step shows the default page.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/pane"
+          }
+        }
+      }
+    },
+    "pane": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "editor"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-editor"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "context"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-context"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "outline"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-outline"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "graph"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-graph"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "callstack"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-callstack"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "diff"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-diff"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "file-tree"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/pane-file-tree"
+          }
+        }
+      ]
+    },
+    "pane-editor": {
+      "description": "Source code. No `anchor` and no `highlights`: the step's own anchor. With `highlights`, every chunk is in one file.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "editor"
+        },
+        "anchor": {
+          "$ref": "#/$defs/anchorRef"
+        },
+        "highlights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "anchor"
+            ],
+            "properties": {
+              "anchor": {
+                "$ref": "#/$defs/anchorRef"
+              },
+              "name": {
+                "description": "A short label (two to five words), on the strip above the chunk and its row in the step's list of chunks.",
+                "type": "string"
+              },
+              "note": {
+                "description": "Commentary (a sentence or two), shown under the label in the step's list of chunks. Without `name`, the note is the label.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "not": {
+        "required": [
+          "anchor",
+          "highlights"
+        ]
+      }
+    },
+    "pane-context": {
+      "description": "The Context pane, pinned to a declaration.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchor"
+      ],
+      "properties": {
+        "kind": {
+          "const": "context"
+        },
+        "anchor": {
+          "$ref": "#/$defs/anchorRef"
+        }
+      }
+    },
+    "pane-outline": {
+      "description": "The outline of one file.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "kind": {
+          "const": "outline"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        }
+      }
+    },
+    "pane-graph": {
+      "description": "A graph around a node (code or external) or an anchor.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "of"
+      ],
+      "properties": {
+        "kind": {
+          "const": "graph"
+        },
+        "of": {
+          "$ref": "#/$defs/anchorRef"
+        },
+        "direction": {
+          "description": "in: callers; out: callees; both (default).",
+          "enum": [
+            "in",
+            "out",
+            "both"
+          ]
+        },
+        "depth": {
+          "description": "How many edges out; default 1.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "pane-callstack": {
+      "description": "This investigation's call stack.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "callstack"
+        }
+      }
+    },
+    "pane-diff": {
+      "description": "One file between two revisions, shown with the comparison view.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "base"
+      ],
+      "properties": {
+        "kind": {
+          "const": "diff"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "base": {
+          "description": "A branch, tag or commit.",
+          "$ref": "#/$defs/rev"
+        },
+        "head": {
+          "description": "A branch, tag or commit; absent means the working tree.",
+          "$ref": "#/$defs/rev"
+        }
+      }
+    },
+    "pane-file-tree": {
+      "description": "The file tree, optionally opened at a folder.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "file-tree"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        }
+      }
+    },
+    "cell": {
+      "description": "One side's entry in a row: a `step` or a `missing` reason.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "step": {
+          "description": "A node or external id.",
+          "type": "string",
+          "minLength": 1
+        },
+        "missing": {
+          "description": "Why this side has no step (\"not reached\" in a tour branch).",
+          "$ref": "#/$defs/text"
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "step"
+          ]
+        },
+        {
+          "required": [
+            "missing"
+          ]
+        }
+      ]
+    },
+    "rowResult": {
+      "description": "same, differs or missing. Chorong derives missing when a side has no step, and same when every side anchors the same declaration and no result or values are written; otherwise the result is the author's claim.",
+      "enum": [
+        "same",
+        "differs",
+        "missing"
+      ]
+    },
+    "override": {
+      "description": "A variant's replacement for one row (or tour step).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "step": {
+          "description": "A node or external id.",
+          "type": "string",
+          "minLength": 1
+        },
+        "missing": {
+          "description": "Why this side has no step (\"not reached\" in a tour branch).",
+          "$ref": "#/$defs/text"
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        },
+        "note": {
+          "type": "string"
+        },
+        "result": {
+          "description": "Comparisons only.",
+          "$ref": "#/$defs/rowResult"
+        },
+        "callout": {
+          "description": "Comparisons only.",
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "step"
+          ]
+        },
+        {
+          "required": [
+            "missing"
+          ]
+        }
+      ]
+    },
+    "variant": {
+      "description": "An alternative version of a side, or a tour branch. Overrides only the rows (or steps) it names.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "rows"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "rows": {
+          "description": "Row id (comparison) or step id (tour branch) to its replacement.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/override"
+          }
+        }
+      }
+    },
+    "side": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "path"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "path": {
+          "description": "Node (or external) ids along this path, first to last.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/variant"
+          }
+        }
+      }
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "cells"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "description": "Short name of the job.",
+          "$ref": "#/$defs/text"
+        },
+        "phase": {
+          "$ref": "#/$defs/phase"
+        },
+        "cells": {
+          "description": "Side id to that side's entry; every side has one.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/cell"
+          }
+        },
+        "result": {
+          "$ref": "#/$defs/rowResult"
+        },
+        "callout": {
+          "description": "Where the paths split, or anything else worth calling out.",
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

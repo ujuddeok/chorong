@@ -1,0 +1,39 @@
+[package]
+name = "chorong"
+description = "Chorong's headless command-line interface, for people and agents."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+keywords = ["code-navigation", "scip", "tree-sitter", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+
+[[bin]]
+name = "cho"
+path = "src/main.rs"
+
+[dependencies]
+cho-changes.workspace = true
+cho-core.workspace = true
+cho-syntax.workspace = true
+cho-theme.workspace = true
+cho-investigation = { workspace = true, features = ["fetch"] }
+cho-semantic.workspace = true
+cho-search.workspace = true
+cho-graph.workspace = true
+cho-settings.workspace = true
+cho-sources.workspace = true
+cho-git.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+signal-hook.workspace = true
+
+[dev-dependencies]
+cho-core = { workspace = true, features = ["test-support"] }
+cho-fixtures = { path = "../cho-fixtures" }
+
+[lints]
+workspace = true

@@ -1,0 +1,3 @@
+export * from './a';
+export type { A, b as c } from "./b";
+/* export * from 'x' */

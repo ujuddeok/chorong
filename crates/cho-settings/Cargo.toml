@@ -1,0 +1,16 @@
+[package]
+name = "cho-settings"
+description = "Chorong's settings: typed defaults, JSONC settings file, per-repository overrides, Lightweight mode and change notification. No GUI dependency."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[dependencies]
+cho-core.workspace = true
+
+[dev-dependencies]
+
+[lints]
+workspace = true

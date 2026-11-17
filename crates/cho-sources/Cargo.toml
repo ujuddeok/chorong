@@ -1,0 +1,32 @@
+[package]
+name = "cho-sources"
+description = "Remote sources for Chorong: projects, the repository cache, fetching, worktrees, merge bases, pull-request details and host tokens."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[dependencies]
+gix = { version = "0.90", default-features = false, features = ["revision", "sha1"] }
+keyring = "4"
+cho-core.workspace = true
+cho-git.workspace = true
+cho-semantic.workspace = true
+cho-settings.workspace = true
+# Only to hand ureq the ring crypto provider, which its default features used to choose.
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+serde.workspace = true
+serde_json.workspace = true
+sha2 = "0.10"
+# No default features: they bundle Mozilla's root list (webpki-roots), which only changes when
+# Chorong is rebuilt. Chorong trusts the OS store instead (hosts.rs); deny.toml bans the bundle.
+ureq = { version = "3", default-features = false, features = ["gzip", "platform-verifier", "rustls-no-provider"] }
+url.workspace = true
+
+[dev-dependencies]
+cho-core = { workspace = true, features = ["test-support"] }
+tempfile = "3"
+
+[lints]
+workspace = true

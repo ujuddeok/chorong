@@ -1,0 +1,11 @@
+{
+  // Solution file: builds nothing itself.
+  "extends": "./packages/typescript-config/base.json",
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/client" },
+    { "path": "./packages/ui" },
+    { "path": "./apps/web" }
+  ]
+}

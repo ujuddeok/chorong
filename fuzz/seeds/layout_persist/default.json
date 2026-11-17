@@ -1,0 +1,77 @@
+{
+  "version": 2,
+  "next_id": 8,
+  "focused": null,
+  "panes": [
+    {
+      "id": 1,
+      "kind": "file_tree"
+    },
+    {
+      "id": 3,
+      "kind": "context"
+    },
+    {
+      "id": 5,
+      "kind": "outline"
+    }
+  ],
+  "arrangement": {
+    "left": {
+      "root": {
+        "type": "group",
+        "id": 2,
+        "tabs": [
+          1
+        ],
+        "active": 0,
+        "minimized": false
+      },
+      "size": 260.0,
+      "visible": true
+    },
+    "right": {
+      "root": {
+        "type": "split",
+        "id": 6,
+        "axis": "column",
+        "children": [
+          {
+            "weight": 0.5,
+            "node": {
+              "type": "group",
+              "id": 4,
+              "tabs": [
+                3
+              ],
+              "active": 0,
+              "minimized": false
+            }
+          },
+          {
+            "weight": 0.5,
+            "node": {
+              "type": "group",
+              "id": 7,
+              "tabs": [
+                5
+              ],
+              "active": 0,
+              "minimized": false
+            }
+          }
+        ]
+      },
+      "size": 320.0,
+      "visible": true
+    },
+    "bottom": {
+      "root": null,
+      "size": 220.0,
+      "visible": true
+    },
+    "editor": null
+  },
+  "focus_history": [],
+  "recent": []
+}

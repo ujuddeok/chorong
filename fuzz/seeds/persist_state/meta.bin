@@ -1,0 +1,14 @@
+{
+  "indexer": "rust-analyzer",
+  "indexer_version": "1.0",
+  "language": "rust",
+  "project_root": "crates/x",
+  "git_head": "abc",
+  "git_status_hash": "00ff",
+  "created": 5,
+  "success": true,
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_ms": 12,
+  "stderr_tail": "e\n"
+}

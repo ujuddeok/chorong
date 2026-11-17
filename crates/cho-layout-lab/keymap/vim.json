@@ -1,0 +1,49 @@
+[
+  {
+    "comment": "Optional Vim keys for Layout mode (cho-layout-lab --vim): h/j/k/l alongside the arrows. h replaces Reopen focus layout in the mode.",
+    "context": "LayoutMode",
+    "bindings": {
+      "h": "chorong::FocusPaneLeft",
+      "l": "chorong::FocusPaneRight",
+      "k": "chorong::FocusPaneUp",
+      "j": "chorong::FocusPaneDown",
+      "shift-h": "chorong::MovePaneLeft",
+      "shift-l": "chorong::MovePaneRight",
+      "shift-k": "chorong::MovePaneUp",
+      "shift-j": "chorong::MovePaneDown",
+      "alt-h": "chorong::MoveGroupLeft",
+      "alt-l": "chorong::MoveGroupRight",
+      "alt-k": "chorong::MoveGroupUp",
+      "alt-j": "chorong::MoveGroupDown"
+    }
+  },
+  {
+    "context": "LayoutMode && resize",
+    "bindings": {
+      "h": [
+        "chorong::ResizePane",
+        {
+          "direction": "left"
+        }
+      ],
+      "l": [
+        "chorong::ResizePane",
+        {
+          "direction": "right"
+        }
+      ],
+      "k": [
+        "chorong::ResizePane",
+        {
+          "direction": "up"
+        }
+      ],
+      "j": [
+        "chorong::ResizePane",
+        {
+          "direction": "down"
+        }
+      ]
+    }
+  }
+]

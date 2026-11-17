@@ -1,0 +1,1 @@
+chorong://open?repo=local:/home/me/proj&path=a.rs&line=12

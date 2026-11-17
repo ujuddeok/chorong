@@ -1,0 +1,613 @@
+[
+  {
+    "comment": "Chorong's default keymap, in Zed's keymap format: sections of context + keystroke -> action. `cmd` means Cmd on macOS and Ctrl elsewhere (the loader rewrites it); a section tagged \"platform\" applies to that platform only. See docs/public/keybindings.md.",
+    "context": "Chorong",
+    "bindings": {
+      "cmd-p": "chorong::OpenPicker",
+      "cmd-shift-p": "chorong::OpenPalette",
+      "cmd-o": "chorong::OpenPath",
+      "cmd-shift-o": "chorong::OpenSymbols",
+      "cmd-t": "chorong::OpenProjectSymbols",
+      "cmd-f": "chorong::FindInFile",
+      "cmd-shift-f": "chorong::OpenSearch",
+      "ctrl-g": "chorong::GoToLine",
+      "f12": "chorong::GoToDefinition",
+      "shift-f12": "chorong::FindReferences",
+      "cmd-[": "chorong::Back",
+      "cmd-]": "chorong::Forward",
+      "ctrl--": "chorong::Back",
+      "ctrl-shift--": "chorong::Forward",
+      "cmd-k l": "chorong::ToggleCriticalLens",
+      "cmd-k h": "chorong::ToggleHideTests",
+      "cmd-k o": "chorong::ToggleOutline",
+      "cmd-k shift-h": "chorong::ToggleHighlights",
+      "cmd-k b": "chorong::ToggleFileTree",
+      "cmd-k shift-b": "chorong::ToggleBlame",
+      "cmd-k p": "chorong::TogglePin",
+      "cmd-k g": "chorong::ShowGraph",
+      "cmd-k i": "chorong::BuildIndex",
+      "cmd-k e": "chorong::OpenInEditor",
+      "cmd-k w": "chorong::OpenOnGitHub",
+      "cmd-k c": "chorong::CopyLink",
+      "cmd-k d": "chorong::CompareAgainst",
+      "cmd-k u": "chorong::ToggleHighlightUncommitted",
+      "cmd-k t": "chorong::SwitchTheme",
+      "cmd-k 0": "chorong::FoldAll",
+      "cmd-k j": "chorong::UnfoldAll"
+    }
+  },
+  {
+    "context": "Chorong",
+    "platform": "other",
+    "bindings": {
+      "alt-left": "chorong::Back",
+      "alt-right": "chorong::Forward"
+    }
+  },
+  {
+    "comment": "Second keys for the pickers on macOS, as some Zed keymaps bind them (Cmd-T and Cmd-P keep working).",
+    "context": "Chorong",
+    "platform": "macos",
+    "bindings": {
+      "cmd-n": "chorong::OpenProjectSymbols",
+      "ctrl-cmd-n": "chorong::OpenPicker"
+    }
+  },
+  {
+    "comment": "The macOS menu bar's Quit and Minimize. No context: they work in every Chorong window, the settings window too.",
+    "platform": "macos",
+    "bindings": {
+      "cmd-q": "chorong::Quit",
+      "cmd-m": "chorong::MinimizeWindow"
+    }
+  },
+  {
+    "comment": "Settings window. No context: the key also works inside the settings window itself.",
+    "bindings": {
+      "cmd-,": "chorong::OpenSettings"
+    }
+  },
+  {
+    "comment": "Layout actions (docks, panes, focus layouts). Keys follow the layout design. MinimizePane, ReopenFocusLayout and the dock toggles have no key there except those below, so the rest stay reachable from the pane menu, the status bar and the focus-history button. The viewer's own binding wins where a key is taken: Cmd-K P stays Toggle pin, and Esc (RestoreLayout) is not bound here because the code view's Esc clears highlights, which hands over to the layout when a menu or focus layout is open.",
+    "context": "Chorong",
+    "bindings": {
+      "cmd-k m": "chorong::ToggleMaximizePane",
+      "cmd-k shift-p": "chorong::PinContextToBottomBar",
+      "cmd-k f": "chorong::ToggleFrameStats"
+    }
+  },
+  {
+    "comment": "Pins and tour pages (design/layout.md). Cmd-K P (Toggle pin, above) pins the context under the live Context pane, or unpins a focused pin; Cmd-K Shift-P pins to the bottom bar. Cmd-K R rebuilds the current focus page from the tour step that made it.",
+    "context": "Chorong",
+    "bindings": {
+      "cmd-k r": "chorong::ResetFocusPage"
+    }
+  },
+  {
+    "comment": "Focus pages, as the owner approved them (Cmd-K R, reset page, comes with tour pages).",
+    "context": "Chorong",
+    "bindings": {
+      "cmd-k ]": "chorong::NextFocusPage",
+      "cmd-k [": "chorong::PrevFocusPage",
+      "cmd-k shift-n": "chorong::NewFocusPage",
+      "cmd-k a": "chorong::BringFromTray",
+      "cmd-k 1": [
+        "chorong::GoToFocusPage",
+        1
+      ],
+      "cmd-k 2": [
+        "chorong::GoToFocusPage",
+        2
+      ],
+      "cmd-k 3": [
+        "chorong::GoToFocusPage",
+        3
+      ],
+      "cmd-k 4": [
+        "chorong::GoToFocusPage",
+        4
+      ],
+      "cmd-k 5": [
+        "chorong::GoToFocusPage",
+        5
+      ],
+      "cmd-k 6": [
+        "chorong::GoToFocusPage",
+        6
+      ],
+      "cmd-k 7": [
+        "chorong::GoToFocusPage",
+        7
+      ],
+      "cmd-k 8": [
+        "chorong::GoToFocusPage",
+        8
+      ],
+      "cmd-k 9": [
+        "chorong::GoToFocusPage",
+        9
+      ]
+    }
+  },
+  {
+    "comment": "Keyboard layout (design/layout-keyboard.md, decided): direct chords in the window.",
+    "context": "Chorong",
+    "bindings": {
+      "cmd-k cmd-left": "chorong::FocusPaneLeft",
+      "cmd-k cmd-right": "chorong::FocusPaneRight",
+      "cmd-k cmd-up": "chorong::FocusPaneUp",
+      "cmd-k cmd-down": "chorong::FocusPaneDown",
+      "cmd-1": [
+        "chorong::FocusEditorGroup",
+        1
+      ],
+      "cmd-2": [
+        "chorong::FocusEditorGroup",
+        2
+      ],
+      "cmd-3": [
+        "chorong::FocusEditorGroup",
+        3
+      ],
+      "cmd-4": [
+        "chorong::FocusEditorGroup",
+        4
+      ],
+      "cmd-5": [
+        "chorong::FocusEditorGroup",
+        5
+      ],
+      "cmd-6": [
+        "chorong::FocusEditorGroup",
+        6
+      ],
+      "cmd-7": [
+        "chorong::FocusEditorGroup",
+        7
+      ],
+      "cmd-8": [
+        "chorong::FocusEditorGroup",
+        8
+      ],
+      "cmd-9": [
+        "chorong::FocusEditorGroup",
+        9
+      ],
+      "cmd-b": "chorong::ToggleLeftDock",
+      "cmd-alt-b": "chorong::ToggleRightDock",
+      "cmd-j": "chorong::ToggleBottomBar",
+      "cmd-alt-y": "chorong::ToggleAllDocks",
+      "cmd-\\": "chorong::SplitPaneRight",
+      "cmd-k left": "chorong::SplitPaneLeft",
+      "cmd-k right": "chorong::SplitPaneRight",
+      "cmd-k up": "chorong::SplitPaneUp",
+      "cmd-k down": "chorong::SplitPaneDown",
+      "shift-escape": "chorong::ToggleMaximizePane",
+      "cmd-k n": "chorong::MinimizePane",
+      "cmd-k z": "chorong::UndoLayout",
+      "cmd-k shift-z": "chorong::RedoLayout",
+      "cmd-k space": "chorong::EnterLayoutMode",
+      "cmd-w": "chorong::ClosePane",
+      "ctrl-tab": "chorong::OpenSwitcher",
+      "ctrl-shift-tab": "chorong::OpenSwitcherReverse",
+      "ctrl-alt-=": "chorong::GrowDock",
+      "ctrl-alt--": "chorong::ShrinkDock",
+      "ctrl-alt-0": "chorong::ResetDockSize"
+    }
+  },
+  {
+    "comment": "Focus pane…, Move pane to… and Bring from tray… (palette entries; p and b in Layout mode) and the Ctrl-Tab switcher. The deepest context decides, so single-letter keys of the code view do not apply here and letters type into the query.",
+    "context": "PanePicker",
+    "bindings": {
+      "up": "chorong::PaneListPrev",
+      "down": "chorong::PaneListNext",
+      "enter": "chorong::PaneListConfirm",
+      "shift-enter": "chorong::PaneListConfirmAlt",
+      "tab": "chorong::PaneListTab",
+      "escape": "chorong::PaneListClose"
+    }
+  },
+  {
+    "context": "PaneSwitcher",
+    "bindings": {
+      "up": "chorong::PaneListPrev",
+      "down": "chorong::PaneListNext",
+      "left": "chorong::PaneListPrev",
+      "right": "chorong::PaneListNext",
+      "enter": "chorong::PaneListConfirm",
+      "escape": "chorong::PaneListClose"
+    }
+  },
+  {
+    "comment": "Layout mode: exclusive, entered with w or Cmd-K Space; its hint bar has this context. Jump labels: 1-9 editor groups, then home-row letters.",
+    "context": "LayoutMode",
+    "bindings": {
+      "left": "chorong::FocusPaneLeft",
+      "right": "chorong::FocusPaneRight",
+      "up": "chorong::FocusPaneUp",
+      "down": "chorong::FocusPaneDown",
+      "shift-left": "chorong::MovePaneLeft",
+      "shift-right": "chorong::MovePaneRight",
+      "shift-up": "chorong::MovePaneUp",
+      "shift-down": "chorong::MovePaneDown",
+      "alt-left": "chorong::MoveGroupLeft",
+      "alt-right": "chorong::MoveGroupRight",
+      "alt-up": "chorong::MoveGroupUp",
+      "alt-down": "chorong::MoveGroupDown",
+      "tab": "chorong::NextTrayFile",
+      "shift-tab": "chorong::PrevTrayFile",
+      "1": [
+        "chorong::FocusEditorGroup",
+        1
+      ],
+      "2": [
+        "chorong::FocusEditorGroup",
+        2
+      ],
+      "3": [
+        "chorong::FocusEditorGroup",
+        3
+      ],
+      "4": [
+        "chorong::FocusEditorGroup",
+        4
+      ],
+      "5": [
+        "chorong::FocusEditorGroup",
+        5
+      ],
+      "6": [
+        "chorong::FocusEditorGroup",
+        6
+      ],
+      "7": [
+        "chorong::FocusEditorGroup",
+        7
+      ],
+      "8": [
+        "chorong::FocusEditorGroup",
+        8
+      ],
+      "9": [
+        "chorong::FocusEditorGroup",
+        9
+      ],
+      "a": [
+        "chorong::FocusLabel",
+        "a"
+      ],
+      "d": [
+        "chorong::FocusLabel",
+        "d"
+      ],
+      "f": [
+        "chorong::FocusLabel",
+        "f"
+      ],
+      "g": [
+        "chorong::FocusLabel",
+        "g"
+      ],
+      "j": [
+        "chorong::FocusLabel",
+        "j"
+      ],
+      "k": [
+        "chorong::FocusLabel",
+        "k"
+      ],
+      "l": [
+        "chorong::FocusLabel",
+        "l"
+      ],
+      ";": [
+        "chorong::FocusLabel",
+        ";"
+      ],
+      "e": [
+        "chorong::FocusLabel",
+        "e"
+      ],
+      "i": [
+        "chorong::FocusLabel",
+        "i"
+      ],
+      "o": [
+        "chorong::FocusLabel",
+        "o"
+      ],
+      "q": [
+        "chorong::FocusLabel",
+        "q"
+      ],
+      "c": [
+        "chorong::FocusLabel",
+        "c"
+      ],
+      "z": [
+        "chorong::FocusLabel",
+        "z"
+      ],
+      "y": [
+        "chorong::FocusLabel",
+        "y"
+      ],
+      "v": "chorong::SplitPaneRight",
+      "s": "chorong::SplitPaneDown",
+      "r": "chorong::EnterResizeMode",
+      "=": "chorong::EqualizePanes",
+      "m": "chorong::ToggleMaximizePane",
+      "n": "chorong::MinimizePane",
+      "t": "chorong::SendPaneToTray",
+      "x": "chorong::ClosePane",
+      "p": "chorong::MovePaneTo",
+      "b": "chorong::BringFromTray",
+      "h": "chorong::ReopenFocusLayout",
+      "u": "chorong::UndoLayout",
+      "shift-u": "chorong::RedoLayout",
+      "w": "chorong::ExitLayoutMode",
+      "enter": "chorong::ExitLayoutMode",
+      "escape": "chorong::ExitLayoutMode"
+    }
+  },
+  {
+    "comment": "The resize sub-mode (r in Layout mode). Later sections win, so these arrows resize.",
+    "context": "LayoutMode && resize",
+    "bindings": {
+      "left": [
+        "chorong::ResizePane",
+        {
+          "direction": "left"
+        }
+      ],
+      "shift-left": [
+        "chorong::ResizePane",
+        {
+          "direction": "left",
+          "fine": true
+        }
+      ],
+      "right": [
+        "chorong::ResizePane",
+        {
+          "direction": "right"
+        }
+      ],
+      "shift-right": [
+        "chorong::ResizePane",
+        {
+          "direction": "right",
+          "fine": true
+        }
+      ],
+      "up": [
+        "chorong::ResizePane",
+        {
+          "direction": "up"
+        }
+      ],
+      "shift-up": [
+        "chorong::ResizePane",
+        {
+          "direction": "up",
+          "fine": true
+        }
+      ],
+      "down": [
+        "chorong::ResizePane",
+        {
+          "direction": "down"
+        }
+      ],
+      "shift-down": [
+        "chorong::ResizePane",
+        {
+          "direction": "down",
+          "fine": true
+        }
+      ],
+      "=": "chorong::EqualizePanes",
+      "enter": "chorong::ExitResizeMode",
+      "escape": "chorong::ExitResizeMode"
+    }
+  },
+  {
+    "comment": "Single keys: bound only while the code view has focus, so pickers and text fields get them as text.",
+    "context": "CodeView",
+    "bindings": {
+      "w": "chorong::EnterLayoutMode",
+      "b": "chorong::SwitchBeforeAfter",
+      "shift-b": "chorong::ToggleSplitLink",
+      "u": "chorong::NextUncommitted",
+      "shift-u": "chorong::PrevUncommitted",
+      "h": "chorong::HighlightSymbol",
+      "n": "chorong::NextOccurrence",
+      "shift-n": "chorong::PrevOccurrence",
+      "escape": "chorong::RemoveNewestHighlight",
+      "d": "chorong::GoToDefinition",
+      "r": "chorong::FindReferences",
+      "space": "chorong::ToggleFold",
+      "enter": "chorong::ToggleFold",
+      "[": "chorong::PrevDeclaration",
+      "]": "chorong::NextDeclaration",
+      "?": "chorong::ShowCheatSheet",
+      "up": "chorong::SelectPrevLine",
+      "down": "chorong::SelectNextLine",
+      "left": "chorong::FoldOrEnclosing",
+      "right": "chorong::UnfoldOrStepIn"
+    }
+  },
+  {
+    "comment": "Selecting and copying code text, while the code view has focus (the find bar, pickers and search fields keep their own Cmd-C and Cmd-A). Cmd-C copies the selection, or the caret's line when nothing is selected; Cmd-Shift-C copies it under a path:lines header in a fenced block.",
+    "context": "CodeView",
+    "bindings": {
+      "cmd-c": "chorong::CopySelection",
+      "cmd-shift-c": "chorong::CopyWithLocation",
+      "cmd-a": "chorong::SelectAll"
+    }
+  },
+  {
+    "comment": "While the index banner is up: Esc presses its Not now. After the CodeView block, so it wins. No Enter: a build starts only from a click, Cmd-K I or the status bar, never by accident.",
+    "context": "CodeView && IndexBanner",
+    "bindings": {
+      "escape": "chorong::StartBannerDismiss"
+    }
+  },
+  {
+    "context": "Picker",
+    "bindings": {
+      "up": "chorong::PickerPrev",
+      "down": "chorong::PickerNext",
+      "enter": "chorong::PickerConfirm",
+      "cmd-enter": "chorong::PickerOpenBeside",
+      "cmd-shift-enter": "chorong::PickerOpenBelow",
+      "alt-enter": "chorong::PickerOpenTab",
+      "alt-t": "chorong::PickerToggleTour",
+      "right": "chorong::PickerPeekOpen",
+      "left": "chorong::PickerPeekClose",
+      "tab": "chorong::PickerTab",
+      "escape": "chorong::PickerClose"
+    }
+  },
+  {
+    "comment": "The file picker that adds files to a focus page (Tab in Bring from tray…): Shift-Enter puts the file below.",
+    "context": "AddToPage",
+    "bindings": {
+      "shift-enter": "chorong::PickerConfirmBelow"
+    }
+  },
+  {
+    "comment": "In the command palette Tab also runs the highlighted command: type \"file\", Tab, and Go to File opens.",
+    "context": "Palette",
+    "bindings": {
+      "tab": "chorong::PickerConfirm"
+    }
+  },
+  {
+    "comment": "The context pane's reference list, after Shift-F12 or r.",
+    "context": "References",
+    "bindings": {
+      "up": "chorong::ReferencesPrev",
+      "down": "chorong::ReferencesNext",
+      "enter": "chorong::ReferencesOpen",
+      "cmd-enter": "chorong::ReferencesOpenRight",
+      "cmd-shift-enter": "chorong::ReferencesOpenBelow",
+      "alt-enter": "chorong::ReferencesOpenTab",
+      "escape": "chorong::ReferencesClose"
+    }
+  },
+  {
+    "comment": "The Changes list, after Show Changes or a click on one of its rows or its filter box. Typing filters it (not a binding: the list reads the keys).",
+    "context": "Changes",
+    "bindings": {
+      "up": "chorong::ChangesPrev",
+      "down": "chorong::ChangesNext",
+      "left": "chorong::ChangesCollapse",
+      "right": "chorong::ChangesExpand",
+      "enter": "chorong::ChangesOpen",
+      "cmd-enter": "chorong::ChangesOpenRight",
+      "cmd-shift-enter": "chorong::ChangesOpenBelow",
+      "alt-enter": "chorong::ChangesOpenTab",
+      "escape": "chorong::ChangesClose"
+    }
+  },
+  {
+    "comment": "The Tour and Call stack panes' steps, after opening an investigation or clicking a step. j and k are a deliberate exception to Vim keys being optional: these panes are lists, not the code view (docs/public/keybindings.md).",
+    "context": "Steps",
+    "bindings": {
+      "j": "chorong::StepNext",
+      "k": "chorong::StepPrev",
+      "down": "chorong::StepNext",
+      "up": "chorong::StepPrev",
+      "enter": "chorong::StepOpen",
+      "escape": "chorong::StepLeave",
+      "n": "chorong::NextOccurrence",
+      "shift-n": "chorong::PrevOccurrence",
+      "v": "chorong::NextVariant",
+      "b": "chorong::NextBranch",
+      "?": "chorong::ShowCheatSheet"
+    }
+  },
+  {
+    "comment": "Stepping through an open tour or call stack from anywhere (they say so when none is open).",
+    "context": "Chorong",
+    "bindings": {
+      "alt-]": "chorong::NextStep",
+      "alt-[": "chorong::PrevStep",
+      "alt-home": "chorong::FirstStep",
+      "alt-end": "chorong::LastStep"
+    }
+  },
+  {
+    "comment": "Tour focus pages (format v2): a page per step.",
+    "context": "Chorong",
+    "bindings": {
+      "cmd-k shift-t": "chorong::OpenTourPages",
+      "cmd-k shift-c": "chorong::OpenComparisonAsTour"
+    }
+  },
+  {
+    "comment": "The Show graph popover: choose what the graph starts from, then build it.",
+    "context": "Graph",
+    "bindings": {
+      "up": "chorong::GraphPrev",
+      "down": "chorong::GraphNext",
+      "enter": "chorong::GraphBuild",
+      "escape": "chorong::GraphClose",
+      "d": "chorong::GraphDirection",
+      "=": "chorong::GraphDeeper",
+      "+": "chorong::GraphDeeper",
+      "-": "chorong::GraphShallower",
+      "s": "chorong::GraphShare"
+    }
+  },
+  {
+    "comment": "The find bar (Cmd-F) while its query has the keyboard. No single letters: they type into the query.",
+    "context": "Find",
+    "bindings": {
+      "enter": "chorong::FindNext",
+      "shift-enter": "chorong::FindPrev",
+      "escape": "chorong::FindClose",
+      "alt-c": "chorong::FindToggleCase",
+      "alt-r": "chorong::FindToggleRegex"
+    }
+  },
+  {
+    "context": "Search",
+    "bindings": {
+      "up": "chorong::SearchPrev",
+      "down": "chorong::SearchNext",
+      "enter": "chorong::SearchConfirm",
+      "escape": "chorong::SearchClose",
+      "alt-c": "chorong::SearchToggleCase",
+      "alt-r": "chorong::SearchToggleRegex"
+    }
+  },
+  {
+    "comment": "The Open Remote form: Tab moves between its boxes, Up and Down choose a project or a completion.",
+    "context": "Remote",
+    "bindings": {
+      "up": "chorong::RemoteUp",
+      "down": "chorong::RemoteDown",
+      "tab": "chorong::RemoteNext",
+      "shift-tab": "chorong::RemotePrev",
+      "enter": "chorong::RemoteConfirm",
+      "escape": "chorong::RemoteClose",
+      "cmd-v": "chorong::RemotePaste"
+    }
+  },
+  {
+    "context": "Dialog",
+    "bindings": {
+      "enter": "chorong::TrustAccept",
+      "escape": "chorong::TrustDecline"
+    }
+  },
+  {
+    "context": "Sheet",
+    "bindings": {
+      "escape": "chorong::DismissOverlay",
+      "?": "chorong::DismissOverlay"
+    }
+  }
+]

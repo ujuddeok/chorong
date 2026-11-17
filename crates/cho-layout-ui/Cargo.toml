@@ -1,0 +1,28 @@
+[package]
+name = "cho-layout-ui"
+description = "The GPUI shell for cho-layout: docks, editor area, focus pages, tray, menus and Layout mode, shared by the viewer and the layout lab."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[dependencies]
+cho-layout.workspace = true
+cho-theme.workspace = true
+cho-metrics.workspace = true
+cho-fonts.workspace = true
+gpui.workspace = true
+# Fuzzy matching for the pane pickers; same version as the viewer's file picker.
+nucleo-matcher = "0.3"
+serde.workspace = true
+serde_json.workspace = true
+# GPUI actions that carry data (GoToFocusPage) derive JsonSchema; same major version as gpui's.
+schemars = "1"
+
+[lints]
+workspace = true
+
+# Same pin as app/Cargo.toml (see docs/public/building.md): gpui 0.2.2's xattr needs libc::ENOATTR.
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "=0.2.186"

@@ -1,0 +1,91 @@
+# cargo-deny: checks every locked third-party crate for security advisories, licences and
+# where it comes from. Run by .github/workflows/deny.yml on dependency changes and weekly
+# (new advisories appear without any change here). Locally: `cargo deny check`.
+
+[graph]
+all-features = true
+# The platforms Chorong ships for. Without this, dependencies used only on other targets (wasm32,
+# Android, iOS) are checked too.
+targets = [
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-gnu",
+    "x86_64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+    "x86_64-unknown-linux-gnu",
+]
+
+[advisories]
+# A RustSec advisory against any crate in Cargo.lock fails the check. Unmaintained notices
+# only fail for Chorong's direct dependencies; the rest are reported.
+unmaintained = "workspace"
+yanked = "warn"
+ignore = [
+    # { id = "RUSTSEC-YYYY-NNNN", reason = "why it does not apply to Chorong, and until when" },
+]
+
+[licenses]
+# Every licence in the tree as of 2026-11-01 (810 crates), all permissive or weak copyleft
+# (MPL-2.0 is per file and fine for a dependency). A crate under anything else fails until
+# someone decides.
+allow = [
+    "0BSD",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "CC0-1.0",
+    "ISC",
+    "MIT",
+    "MIT-0",
+    "MPL-2.0",
+    "NCSA",
+    "Unicode-3.0",
+    "Unlicense",
+    "Zlib",
+]
+confidence-threshold = 0.9
+# Chorong's own crates carry Chorong's licence, FSL-1.1-ALv2 (LICENSE.md). The allow list is for
+# what Chorong uses, so the unpublished ones (cho-fixtures, cho-layout-lab) are not checked and
+# the published ones are named below; a dependency under FSL still fails.
+private = { ignore = true }
+exceptions = [
+    { crate = "cho-changes", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-core", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-fonts", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-git", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-graph", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-investigation", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-layout", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-layout-ui", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-metrics", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-search", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-semantic", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-settings", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-sources", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-syntax", allow = ["FSL-1.1-ALv2"] },
+    { crate = "cho-theme", allow = ["FSL-1.1-ALv2"] },
+    { crate = "chorong", allow = ["FSL-1.1-ALv2"] },
+    { crate = "chorong-app", allow = ["FSL-1.1-ALv2"] },
+]
+
+[bans]
+# GPUI pulls in several versions of some crates; duplicates are not a security issue.
+multiple-versions = "allow"
+wildcards = "deny"
+deny = [
+    # Chorong trusts the operating system's certificate store (cho-sources hosts.rs, via
+    # rustls-platform-verifier), which the OS updates when a CA is distrusted (eMudhra, October
+    # 2026) and which checks revocation on macOS and Windows. A bundled root list is frozen at
+    # build time, so it must not come back through any dependency. See docs/dependencies.md.
+    { crate = "webpki-root-certs", reason = "bundled CA roots; Chorong uses the OS trust store" },
+    { crate = "webpki-roots", reason = "bundled CA roots; Chorong uses the OS trust store" },
+]
+allow-wildcard-paths = true
+
+[sources]
+# Only crates.io. A git dependency or another registry fails until it is added here on purpose.
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

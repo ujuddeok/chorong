@@ -1,0 +1,304 @@
+{
+  "version": 2,
+  "next_id": 34,
+  "focused": 28,
+  "panes": [
+    {
+      "id": 1,
+      "kind": "file_tree"
+    },
+    {
+      "id": 3,
+      "kind": "context"
+    },
+    {
+      "id": 5,
+      "kind": "outline"
+    },
+    {
+      "id": 14,
+      "kind": "pinned_context",
+      "symbol": "sym0",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 74,
+      "commit": "abc1234"
+    },
+    {
+      "id": 19,
+      "kind": "pinned_context",
+      "symbol": "sym0",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 577,
+      "commit": "abc1234"
+    },
+    {
+      "id": 22,
+      "kind": "editor",
+      "path": "app/src/view.rs",
+      "caret": 421
+    },
+    {
+      "id": 25,
+      "kind": "call_stack",
+      "investigation": "inv-1",
+      "title": "Call stack"
+    },
+    {
+      "id": 28,
+      "kind": "pinned_context",
+      "symbol": "sym0",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 661,
+      "commit": "abc1234"
+    },
+    {
+      "id": 29,
+      "kind": "editor",
+      "path": "crates/cho-core/src/line.rs",
+      "caret": 313
+    },
+    {
+      "id": 31,
+      "kind": "pinned_context",
+      "symbol": "sym2",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 967,
+      "commit": "abc1234"
+    }
+  ],
+  "arrangement": {
+    "left": {
+      "root": null,
+      "size": 260.0,
+      "visible": false
+    },
+    "right": {
+      "root": {
+        "type": "split",
+        "id": 6,
+        "axis": "column",
+        "children": [
+          {
+            "weight": 0.33333334,
+            "node": {
+              "type": "group",
+              "id": 4,
+              "tabs": [
+                1
+              ],
+              "active": 0,
+              "minimized": false
+            }
+          },
+          {
+            "weight": 0.33333334,
+            "node": {
+              "type": "group",
+              "id": 7,
+              "tabs": [
+                5
+              ],
+              "active": 0,
+              "minimized": true
+            }
+          },
+          {
+            "weight": 0.16666667,
+            "node": {
+              "type": "group",
+              "id": 17,
+              "tabs": [
+                3,
+                25,
+                14,
+                19,
+                28
+              ],
+              "active": 4,
+              "minimized": false
+            }
+          },
+          {
+            "weight": 0.16666667,
+            "node": {
+              "type": "group",
+              "id": 33,
+              "tabs": [
+                31
+              ],
+              "active": 0,
+              "minimized": false
+            }
+          }
+        ]
+      },
+      "size": 640.0,
+      "visible": true
+    },
+    "bottom": {
+      "root": null,
+      "size": 600.0,
+      "visible": true
+    },
+    "editor": {
+      "type": "group",
+      "id": 23,
+      "tabs": [
+        22,
+        29
+      ],
+      "active": 1,
+      "minimized": false
+    }
+  },
+  "focus_history": [
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "split",
+            "axis": "row",
+            "children": [
+              {
+                "weight": 0.5,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "pin",
+                      "symbol": "sym0",
+                      "commit": "abc1234"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              },
+              {
+                "weight": 0.5,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "pin",
+                      "symbol": "sym0",
+                      "commit": "abc1234"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              }
+            ]
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "pin",
+        "symbol": "sym0",
+        "commit": "abc1234"
+      },
+      "ended_at": 62
+    },
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "split",
+            "axis": "column",
+            "children": [
+              {
+                "weight": 0.5,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "file_tree"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              },
+              {
+                "weight": 0.5,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "outline"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              }
+            ]
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "file_tree"
+      },
+      "ended_at": 32
+    },
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "group",
+            "tabs": [
+              {
+                "kind": "file_tree"
+              }
+            ],
+            "active": 0,
+            "minimized": false
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "file_tree"
+      },
+      "ended_at": 6
+    },
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "group",
+            "tabs": [
+              {
+                "kind": "outline"
+              }
+            ],
+            "active": 0,
+            "minimized": false
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "outline"
+      },
+      "ended_at": 4
+    }
+  ],
+  "recent": [
+    22,
+    19,
+    3,
+    5
+  ]
+}

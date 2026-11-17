@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A2856"/><stop offset="1" stop-color="#080C1C"/></linearGradient>
+<radialGradient id="halo" cx="512" cy="520" r="440" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF9A60" stop-opacity="0.95"/><stop offset="0.35" stop-color="#FF8A55" stop-opacity="0.7"/><stop offset="0.6" stop-color="#E05A3A" stop-opacity="0.25"/><stop offset="1" stop-color="#D04A35" stop-opacity="0"/></radialGradient>
+<radialGradient id="silk" cx="512" cy="520" r="230" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF6E4"/><stop offset="0.3" stop-color="#FFC890"/><stop offset="0.65" stop-color="#EC5E3C"/><stop offset="1" stop-color="#A42A1E"/></radialGradient>
+<linearGradient id="blue" x1="352" y1="0" x2="672" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18357A"/><stop offset="0.45" stop-color="#3C6FD6"/><stop offset="1" stop-color="#18357A"/></linearGradient>
+<clipPath id="tile"><rect x="100" y="100" width="824" height="824" rx="185"/></clipPath>
+</defs>
+<g clip-path="url(#tile)">
+<rect x="100" y="100" width="824" height="824" fill="url(#bg)"/>
+<circle cx="512" cy="520" r="440" fill="url(#halo)"/>
+<path d="M512 230 V100" stroke="#E8C46A" stroke-width="18"/>
+<path d="M352 300 A160 24 0 0 0 672 300 V740 A160 24 0 0 1 352 740 Z" fill="#4A2418" stroke="#4A2418" stroke-width="16" stroke-linejoin="round"/>
+<path d="M352 300 A160 24 0 0 0 672 300 V384 A160 24 0 0 1 352 384 Z" fill="url(#blue)"/>
+<path d="M352 384 A160 24 0 0 0 672 384 V660 A160 24 0 0 1 352 660 Z" fill="url(#silk)"/>
+<path d="M352 660 A160 24 0 0 0 672 660 V740 A160 24 0 0 1 352 740 Z" fill="url(#blue)"/>
+<g fill="none" stroke="#F2CF78" stroke-width="16"><path d="M352 384 A160 24 0 0 0 672 384"/><path d="M352 660 A160 24 0 0 0 672 660"/></g>
+<circle cx="512" cy="522" r="62" fill="none" stroke="#FFE7A8" stroke-width="14"/>
+<path d="M262 312 Q300 300 330 278 Q420 226 512 220 Q604 226 694 278 Q724 300 762 312 Q620 286 512 286 Q404 286 262 312 Z" fill="#2A1C15" stroke="#4A2418" stroke-width="10" stroke-linejoin="round"/>
+<path d="M262 312 Q300 300 330 278 Q420 226 512 220 Q604 226 694 278 Q724 300 762 312" fill="none" stroke="#E8C46A" stroke-width="10"/>
+<path d="M300 312 Q404 288 512 288 Q620 288 724 312" fill="none" stroke="#FFE2B0" stroke-width="10"/>
+<path d="M494 756 H530 L552 900 H472 Z" fill="#D8412F" stroke="#4A2418" stroke-width="8" stroke-linejoin="round"/>
+</g>
+<rect x="102" y="102" width="820" height="820" rx="183" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="4"/>
+</svg>

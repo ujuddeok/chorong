@@ -1,0 +1,24 @@
+[package]
+name = "cho-semantic"
+description = "SCIP-based semantic navigation: index loading, queries, cache and indexer runners."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[dependencies]
+cho-core.workspace = true
+cho-investigation.workspace = true
+cho-syntax.workspace = true
+scip.workspace = true
+protobuf.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+cho-fixtures = { path = "../cho-fixtures" }
+
+[lints]
+workspace = true

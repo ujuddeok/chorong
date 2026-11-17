@@ -1,0 +1,1 @@
+chorong://open?repo=bitbucket:ws/name&symbol=A.b%20c

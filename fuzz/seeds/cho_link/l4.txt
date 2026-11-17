@@ -1,0 +1,1 @@
+chorong://investigation?src=https://example.com/trace.json

@@ -1,0 +1,191 @@
+[package]
+name = "cho-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = { version = "1", features = ["derive"] }
+cho-changes = { path = "../crates/cho-changes" }
+cho-core = { path = "../crates/cho-core" }
+cho-git = { path = "../crates/cho-git" }
+cho-graph = { path = "../crates/cho-graph" }
+cho-investigation = { path = "../crates/cho-investigation" }
+cho-layout = { path = "../crates/cho-layout" }
+cho-search = { path = "../crates/cho-search" }
+cho-semantic = { path = "../crates/cho-semantic" }
+cho-settings = { path = "../crates/cho-settings" }
+cho-sources = { path = "../crates/cho-sources" }
+cho-syntax = { path = "../crates/cho-syntax" }
+cho-theme = { path = "../crates/cho-theme" }
+protobuf = "3"
+scip = "0.10"
+serde_json = "1"
+
+[workspace]
+
+[[bin]]
+name = "source_buffer"
+path = "fuzz_targets/source_buffer.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "line_diff"
+path = "fuzz_targets/line_diff.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "cho_link"
+path = "fuzz_targets/cho_link.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "repo_ref"
+path = "fuzz_targets/repo_ref.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "theme"
+path = "fuzz_targets/theme.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "investigation"
+path = "fuzz_targets/investigation.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "highlight"
+path = "fuzz_targets/highlight.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "outline"
+path = "fuzz_targets/outline.rs"
+test = false
+doc = false
+bench = false
+
+
+[[bin]]
+name = "changes"
+path = "fuzz_targets/changes.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "prepare_recipe"
+path = "fuzz_targets/prepare_recipe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "scip_index"
+path = "fuzz_targets/scip_index.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "source_url"
+path = "fuzz_targets/source_url.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "workspace"
+path = "fuzz_targets/workspace.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "layout_ops"
+path = "fuzz_targets/layout_ops.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "layout_persist"
+path = "fuzz_targets/layout_persist.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "git_diff"
+path = "fuzz_targets/git_diff.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "graph_views"
+path = "fuzz_targets/graph_views.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "persist_state"
+path = "fuzz_targets/persist_state.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "progress_lines"
+path = "fuzz_targets/progress_lines.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "search"
+path = "fuzz_targets/search.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "settings_jsonc"
+path = "fuzz_targets/settings_jsonc.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "folds"
+path = "fuzz_targets/folds.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "marks"
+path = "fuzz_targets/marks.rs"
+test = false
+doc = false
+bench = false

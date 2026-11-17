@@ -1,0 +1,67 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "app"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89" # File::try_lock (cho-sources cache lock)
+license = "FSL-1.1-ALv2" # LICENSE.md; each release becomes Apache-2.0 two years after it ships
+
+[workspace.dependencies]
+# Published to crates.io (docs/releasing.md), so each cho-* entry has a version next to its
+# path; keep it equal to [workspace.package] version. cho-fixtures and cho-layout-lab set
+# `publish = false` and are never published (docs/dependencies.md).
+cho-changes = { version = "0.1.0", path = "crates/cho-changes" }
+cho-core = { version = "0.1.0", path = "crates/cho-core" }
+cho-syntax = { version = "0.1.0", path = "crates/cho-syntax" }
+cho-theme = { version = "0.1.0", path = "crates/cho-theme" }
+cho-fonts = { version = "0.1.0", path = "crates/cho-fonts" }
+cho-investigation = { version = "0.1.0", path = "crates/cho-investigation" }
+cho-semantic = { version = "0.1.0", path = "crates/cho-semantic" }
+cho-graph = { version = "0.1.0", path = "crates/cho-graph" }
+cho-search = { version = "0.1.0", path = "crates/cho-search" }
+cho-settings = { version = "0.1.0", path = "crates/cho-settings" }
+cho-sources = { version = "0.1.0", path = "crates/cho-sources" }
+cho-metrics = { version = "0.1.0", path = "crates/cho-metrics" }
+cho-git = { version = "0.1.0", path = "crates/cho-git" }
+cho-layout = { version = "0.1.0", path = "crates/cho-layout" }
+cho-layout-ui = { version = "0.1.0", path = "crates/cho-layout-ui" }
+
+anyhow = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+url = "2"
+clap = { version = "4", features = ["derive"] }
+scip = "0.10"
+signal-hook = "0.3"
+protobuf = "3"
+
+gpui = "0.2.2"
+
+tree-sitter = "0.27.1"
+tree-sitter-highlight = "0.27.1"
+tree-sitter-rust = "0.24.2"
+tree-sitter-swift = "0.7.4"
+tree-sitter-toml-ng = "0.7.0"
+tree-sitter-typescript = "0.23.2"
+tree-sitter-java = "0.23.5"
+tree-sitter-javascript = "0.25.0"
+tree-sitter-json = "0.24.8"
+tree-sitter-md = "0.5.4"
+tree-sitter-python = "0.25.0"
+tree-sitter-xml = "0.7.0"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+
+# Dependencies: optimised so the debug viewer stays smooth, and without debug info, which
+# cuts a cold chorong-app build by about 30% and target/ by about 64% (chorong-app binary 688 MB ->
+# 83 MB). Chorong's own crates keep full debug info. Measured in design/retro/2026-11-build-process.md.
+[profile.dev.package."*"]
+opt-level = 2
+debug = false

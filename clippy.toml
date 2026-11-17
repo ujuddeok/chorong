@@ -1,0 +1,13 @@
+# Repository content is untrusted: read it with cho_core::fs::read_source_in (size cap,
+# regular files only, no symlink escape). Chorong's own files (settings, caches, /proc) may use
+# std::fs directly with `#[allow(clippy::disallowed_methods)]` and a comment saying why.
+disallowed-methods = [
+    { path = "std::fs::read", reason = "repository files: use cho_core::fs::read_source_in (or read_source for a file the reader named); Chorong's own files: #[allow(clippy::disallowed_methods)] with a reason" },
+    { path = "std::fs::read_to_string", reason = "repository files: use cho_core::fs::read_source_text_in; Chorong's own files: #[allow(clippy::disallowed_methods)] with a reason" },
+    # Every scrollable area stretches at its ends (overscroll); app/src/scroll.rs is the one way in.
+    { path = "gpui::StatefulInteractiveElement::overflow_y_scroll", reason = "scroll through app/src/scroll.rs (ScrollArea::vertical/both, scroll::uniform_list/list + .wrap), which adds overscroll; see its module docs" },
+    { path = "gpui::StatefulInteractiveElement::overflow_x_scroll", reason = "scroll through app/src/scroll.rs (ScrollArea::vertical/both, scroll::uniform_list/list + .wrap), which adds overscroll; see its module docs" },
+    { path = "gpui::StatefulInteractiveElement::overflow_scroll", reason = "scroll through app/src/scroll.rs (ScrollArea::vertical/both, scroll::uniform_list/list + .wrap), which adds overscroll; see its module docs" },
+    { path = "gpui::uniform_list", reason = "scroll through app/src/scroll.rs (ScrollArea::vertical/both, scroll::uniform_list/list + .wrap), which adds overscroll; see its module docs" },
+    { path = "gpui::list", reason = "scroll through app/src/scroll.rs (ScrollArea::vertical/both, scroll::uniform_list/list + .wrap), which adds overscroll; see its module docs" },
+]

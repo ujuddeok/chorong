@@ -1,0 +1,204 @@
+{
+  "version": 2,
+  "next_id": 37,
+  "focused": 24,
+  "panes": [
+    {
+      "id": 3,
+      "kind": "context"
+    },
+    {
+      "id": 5,
+      "kind": "outline"
+    },
+    {
+      "id": 12,
+      "kind": "call_stack",
+      "investigation": "inv-1",
+      "title": "Call stack"
+    },
+    {
+      "id": 15,
+      "kind": "pinned_context",
+      "symbol": "sym1",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 301,
+      "commit": "abc1234"
+    },
+    {
+      "id": 20,
+      "kind": "pinned_context",
+      "symbol": "sym1",
+      "symbol_kind": "function",
+      "path": "crates/cho-core/src/buffer.rs",
+      "byte_offset": 145,
+      "commit": "abc1234"
+    },
+    {
+      "id": 24,
+      "kind": "editor",
+      "path": "src/é/naïve.rs",
+      "caret": 77
+    },
+    {
+      "id": 34,
+      "kind": "call_stack",
+      "investigation": "inv-1",
+      "title": "Call stack"
+    }
+  ],
+  "arrangement": {
+    "left": {
+      "root": null,
+      "size": 455.2,
+      "visible": true
+    },
+    "right": {
+      "root": {
+        "type": "group",
+        "id": 23,
+        "tabs": [
+          20
+        ],
+        "active": 0,
+        "minimized": true
+      },
+      "size": 320.0,
+      "visible": true
+    },
+    "bottom": {
+      "root": {
+        "type": "group",
+        "id": 14,
+        "tabs": [
+          5,
+          3,
+          34
+        ],
+        "active": 2,
+        "minimized": false
+      },
+      "size": 96.0,
+      "visible": true
+    },
+    "editor": {
+      "type": "split",
+      "id": 31,
+      "axis": "column",
+      "children": [
+        {
+          "weight": 0.5,
+          "node": {
+            "type": "group",
+            "id": 25,
+            "tabs": [
+              24
+            ],
+            "active": 0,
+            "minimized": true
+          }
+        },
+        {
+          "weight": 0.25,
+          "node": {
+            "type": "group",
+            "id": 32,
+            "tabs": [
+              15
+            ],
+            "active": 0,
+            "minimized": false
+          }
+        },
+        {
+          "weight": 0.25,
+          "node": {
+            "type": "group",
+            "id": 36,
+            "tabs": [
+              12
+            ],
+            "active": 0,
+            "minimized": false
+          }
+        }
+      ]
+    }
+  },
+  "focus_history": [
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "split",
+            "axis": "row",
+            "children": [
+              {
+                "weight": 0.844,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "pin",
+                      "symbol": "sym1",
+                      "commit": "abc1234"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              },
+              {
+                "weight": 0.15600002,
+                "node": {
+                  "type": "group",
+                  "tabs": [
+                    {
+                      "kind": "file_tree"
+                    }
+                  ],
+                  "active": 0,
+                  "minimized": false
+                }
+              }
+            ]
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "pin",
+        "symbol": "sym1",
+        "commit": "abc1234"
+      },
+      "ended_at": 52
+    },
+    {
+      "pages": [
+        {
+          "layout": {
+            "type": "group",
+            "tabs": [
+              {
+                "kind": "context"
+              }
+            ],
+            "active": 0,
+            "minimized": true
+          },
+          "origin": null
+        }
+      ],
+      "current": 0,
+      "maximized": {
+        "kind": "context"
+      },
+      "ended_at": 47
+    }
+  ],
+  "recent": [
+    20
+  ]
+}

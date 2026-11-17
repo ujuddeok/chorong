@@ -1,0 +1,1 @@
+chorong://open?repo=bitbucket-dc:git.example.com/PROJ/repo

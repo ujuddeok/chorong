@@ -1,0 +1,6 @@
+// head
+{
+  /* c */ "a": true, // tail
+  "b": [1, 2,],
+  "ui.font": "x",
+}
