@@ -32,6 +32,7 @@ const ICONS: &[(&str, &[u8])] = icons![
     "maximize-2",
     "minimize-2",
     "minus",
+    "move",
     "panel-bottom",
     "panel-left",
     "panel-right",

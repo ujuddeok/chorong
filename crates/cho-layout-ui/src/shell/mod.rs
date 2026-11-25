@@ -17,6 +17,7 @@ mod stats;
 
 pub use actions::bind_actions;
 pub use drag::{DragPayload, Dragged};
+pub use pickers::TrayTabMode;
 
 use drag::{DockHandle, DragChip, Hint, Nothing, SplitHandle};
 use render::{key_chip, tip, tip_owned};
@@ -175,6 +176,15 @@ pub trait PaneBodies: 'static {
         _cx: &mut App,
     ) -> Option<AnyElement> {
         None
+    }
+
+    /// What Tab switches "Add to page from the tray…" to: the word in its footer and hint, and
+    /// the words whose start switches (see [`TrayTabMode`]). Tab then asks for the host's
+    /// picker with `AddFileToPage`. The default is Chorong's `"files"`; a host with another
+    /// picker names it, as `TrayTabMode::new("issues").with_alias("jira")`. Must not read the
+    /// shell entity: it is called while the shell draws.
+    fn tray_tab_mode(&self) -> TrayTabMode {
+        TrayTabMode::default()
     }
 }
 

@@ -5,6 +5,20 @@ Release notes for published versions. Newest first. New entries are written as f
 
 ## Unreleased
 
+## 0.1.2 (2026-11-25)
+
+
+### Viewer
+- **Move pane to…** no longer stops a debug build with "unknown icon move", and each place in
+  its list now shows the move icon (a release build drew none). The icon ships with
+  `cho-layout-ui`, and a test checks that every icon the viewer draws is bundled.
+
+### Crates
+- cho-layout-ui: hosts can name the tray picker's Tab mode. `PaneBodies::tray_tab_mode` returns
+  a `TrayTabMode` with the word shown in "Add to page from the tray…" (footer and hint), an
+  optional footer label and aliases whose start also switches on Tab, such as
+  `TrayTabMode::new("issues").with_alias("jira")`. The default stays "files".
+
 ## 0.1.1 (2026-11-17)
 
 

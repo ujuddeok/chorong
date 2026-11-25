@@ -28,14 +28,88 @@ const ROW: f32 = 26.;
 const VISIBLE_ROWS: usize = 12;
 /// The most rows a query can show.
 const MAX_ROWS: usize = 200;
-/// What Tab switches Bring from tray… to. Typing the start of it shows the rest as a hint.
-const FILES_MODE: &str = "files";
+/// The mode Tab switches "Add to page from the tray…" to: the host's own picker, which the
+/// shell asks for with [`AddFileToPage`]. The host names it through
+/// [`PaneBodies::tray_tab_mode`]; the default is Chorong's file picker, `"files"`.
+///
+/// The footer shows `Tab <footer label>`. Typing the start of the word, or of an alias, shows
+/// the rest of it after the query with `⇥ <word>`, and Tab switches; any other query leaves
+/// Tab alone. Matching ignores case and surrounding spaces.
+///
+/// ```
+/// use cho_layout_ui::shell::TrayTabMode;
+/// // Tab issues; "iss" or "ji" then Tab opens the host's issue picker.
+/// let mode = TrayTabMode::new("issues").with_alias("jira");
+/// assert_eq!(mode.footer_label(), "issues");
+/// ```
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TrayTabMode {
+    word: SharedString,
+    footer: SharedString,
+    aliases: Vec<SharedString>,
+}
 
-/// The rest of [`FILES_MODE`] when `query` is its start (any case), for the hint after the
-/// query; `Some("")` when the query is empty. `None` when Tab would do nothing.
-fn files_completion(query: &str) -> Option<&'static str> {
-    let q = query.trim().to_lowercase();
-    FILES_MODE.strip_prefix(q.as_str())
+impl TrayTabMode {
+    /// A mode called `word` (one word, lower case, such as `"issues"`), whose footer label is
+    /// the same word and which has no aliases.
+    pub fn new(word: impl Into<SharedString>) -> Self {
+        let word = word.into();
+        Self {
+            footer: word.clone(),
+            word,
+            aliases: Vec::new(),
+        }
+    }
+
+    /// Shows `label` after the Tab key in the footer instead of the word.
+    pub fn with_footer(mut self, label: impl Into<SharedString>) -> Self {
+        self.footer = label.into();
+        self
+    }
+
+    /// Lets the start of `alias` switch on Tab as well (as `"jira"` for `"issues"`).
+    pub fn with_alias(mut self, alias: impl Into<SharedString>) -> Self {
+        self.aliases.push(alias.into());
+        self
+    }
+
+    /// The mode's word, shown in the hint after `⇥`.
+    pub fn word(&self) -> &str {
+        &self.word
+    }
+
+    /// The text after the Tab key in the footer.
+    pub fn footer_label(&self) -> &str {
+        &self.footer
+    }
+
+    /// Other words whose start also switches on Tab.
+    pub fn aliases(&self) -> &[SharedString] {
+        &self.aliases
+    }
+
+    /// The rest of the word (or else of the first alias) that `query` starts, for the hint
+    /// after the query; `Some("")` names the whole word when the query is empty. `None` when
+    /// Tab would do nothing.
+    fn completion(&self, query: &str) -> Option<String> {
+        let q = query.trim().to_lowercase();
+        std::iter::once(&self.word)
+            .chain(&self.aliases)
+            .find_map(|w| w.to_lowercase().strip_prefix(q.as_str()).map(str::to_owned))
+    }
+
+    /// The hint drawn after a non-empty query: the rest of the word, then `⇥ <word>`.
+    fn ghost(&self, query: &str) -> Option<String> {
+        self.completion(query)
+            .map(|rest| format!("{rest}  \u{21e5} {}", self.word))
+    }
+}
+
+impl Default for TrayTabMode {
+    /// Chorong's: `"files"`, footer `Tab files`, no aliases.
+    fn default() -> Self {
+        Self::new("files")
+    }
 }
 
 /// What the open overlay is.
@@ -188,11 +262,13 @@ impl Shell {
         true
     }
 
-    /// Tab in Bring from tray…: when the query is empty or the start of "files", closes the
-    /// list and asks the host for its file picker (`AddFileToPage`).
+    /// Tab in Bring from tray…: when the query is empty or the start of the host's
+    /// [`TrayTabMode`] (or an alias), closes the list and asks the host for its picker
+    /// (`AddFileToPage`).
     pub(super) fn list_tab(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        let mode = self.bodies.tray_tab_mode();
         let to_files = matches!(self.overlay(), Some(Overlay::List(l))
-            if l.kind == ListKind::Bring && files_completion(&l.query).is_some());
+            if l.kind == ListKind::Bring && mode.completion(&l.query).is_some());
         if to_files {
             self.close_overlay(window, cx);
             ask_for_files(window, cx);
@@ -390,10 +466,11 @@ impl Shell {
             Overlay::List(l) => Some((l.query.clone(), l.query_all)),
             Overlay::Switcher { .. } => None,
         };
-        // Bring from tray…: typing the start of "files" shows the rest, and Tab takes it.
+        // Bring from tray…: typing the start of the Tab mode ("files") shows the rest, and Tab
+        // takes it.
         let ghost = match overlay {
             Overlay::List(l) if l.kind == ListKind::Bring && !l.query.trim().is_empty() => {
-                files_completion(&l.query).map(|rest| format!("{rest}  \u{21e5} files"))
+                self.bodies.tray_tab_mode().ghost(&l.query)
             }
             _ => None,
         };
@@ -643,6 +720,7 @@ impl Shell {
     }
 
     fn list_footer(&self, l: &List, window: &Window) -> AnyElement {
+        let mode = self.bodies.tray_tab_mode();
         let key = |a: &dyn Action| keys::label_in(a, window, "Chorong PanePicker");
         let mut items = vec![(
             key(&PaneListConfirm),
@@ -654,7 +732,7 @@ impl Shell {
         )];
         if l.kind == ListKind::Bring {
             items.push((key(&PaneListConfirmAlt), "below"));
-            items.push((key(&PaneListTab), "files"));
+            items.push((key(&PaneListTab), mode.footer_label()));
         }
         let close = if l.kind == ListKind::Bring {
             "done"
@@ -733,16 +811,39 @@ pub(super) fn ask_for_files(window: &mut Window, cx: &mut Context<Shell>) {
 }
 
 #[cfg(test)]
-mod files_mode_tests {
-    use super::files_completion;
+mod tray_tab_mode_tests {
+    use super::TrayTabMode;
 
     #[test]
-    fn the_start_of_files_completes_and_anything_else_does_not() {
-        assert_eq!(files_completion(""), Some("files"));
-        assert_eq!(files_completion("f"), Some("iles"));
-        assert_eq!(files_completion("FIL"), Some("es"));
-        assert_eq!(files_completion("files"), Some(""));
-        assert_eq!(files_completion("fo"), None);
-        assert_eq!(files_completion("outline"), None);
+    fn the_default_is_files_as_before() {
+        let mode = TrayTabMode::default();
+        assert_eq!(mode.word(), "files");
+        assert_eq!(mode.footer_label(), "files");
+        assert!(mode.aliases().is_empty());
+        let c = |q| mode.completion(q);
+        assert_eq!(c("").as_deref(), Some("files"));
+        assert_eq!(c("f").as_deref(), Some("iles"));
+        assert_eq!(c("FIL").as_deref(), Some("es"));
+        assert_eq!(c("files").as_deref(), Some(""));
+        assert_eq!(c("fo"), None);
+        assert_eq!(c("outline"), None);
+        assert_eq!(mode.ghost("fi").as_deref(), Some("les  \u{21e5} files"));
+    }
+
+    #[test]
+    fn a_host_mode_switches_on_its_word_and_aliases_only() {
+        let mode = TrayTabMode::new("issues").with_alias("jira");
+        assert_eq!(mode.footer_label(), "issues");
+        assert_eq!(mode.ghost("iss").as_deref(), Some("ues  \u{21e5} issues"));
+        assert_eq!(mode.ghost("JI").as_deref(), Some("ra  \u{21e5} issues"));
+        assert_eq!(mode.completion("").as_deref(), Some("issues"));
+        assert_eq!(mode.completion("iss").as_deref(), Some("ues"));
+        assert_eq!(mode.completion(" ji ").as_deref(), Some("ra"));
+        assert_eq!(mode.completion("fi"), None);
+        assert_eq!(mode.completion("ix"), None);
+        assert_eq!(mode.completion("jiras"), None);
+        let labelled = mode.with_footer("Jira issues");
+        assert_eq!(labelled.footer_label(), "Jira issues");
+        assert_eq!(labelled.word(), "issues");
     }
 }

@@ -43,6 +43,11 @@ pub fn icon(name: &str) -> SharedString {
     SharedString::from(format!("app-icons/{name}.svg"))
 }
 
+// The icon-name scan shared with cho-layout-ui's own test of its icons.
+#[cfg(test)]
+#[path = "../../crates/cho-layout-ui/tests/support/icon_scan.rs"]
+mod icon_scan;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -55,5 +60,41 @@ mod tests {
         let shared = cho_layout_ui::assets::icon("x");
         assert!(Assets.load(&shared).unwrap().is_some());
         assert!(Assets.load("app-icons/nope.svg").unwrap().is_none());
+    }
+
+    /// Every icon name the viewer draws is bundled: its own through `crate::assets::icon`,
+    /// the shared ones (`small_icon`, `cho_layout_ui::assets::icon`) from cho-layout-ui. Names
+    /// that reach a call through a variable may be either.
+    #[test]
+    fn every_icon_the_viewer_draws_is_bundled() {
+        let src = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src");
+        let uses = super::icon_scan::icon_uses(&super::icon_scan::rust_files(&src));
+        for known in ["link", "triangle-alert", "chevron-right", "file-code"] {
+            assert!(
+                uses.iter().any(|u| u.name == known),
+                "the scan missed {known:?}"
+            );
+        }
+        let own = |n: &str| ICONS.iter().any(|(i, _)| *i == n);
+        let shared = |n: &str| {
+            cho_layout_ui::assets::Assets
+                .load(&format!("icons/{n}.svg"))
+                .unwrap()
+                .is_some()
+        };
+        let missing: Vec<String> = uses
+            .iter()
+            .filter(|u| match u.via.as_str() {
+                "crate::assets::icon" | "assets::icon" => !own(&u.name),
+                "" => !own(&u.name) && !shared(&u.name),
+                _ => !shared(&u.name),
+            })
+            .map(|u| format!("{}:{}: {:?}", u.file.display(), u.line, u.name))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "unbundled icons:\n{}",
+            missing.join("\n")
+        );
     }
 }
